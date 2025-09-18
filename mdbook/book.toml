@@ -1,0 +1,17 @@
+[book]
+authors = ["robertsweetman"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Data Engineering"
+
+[rust]
+edition = "2018"
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+[output.html]
+additional-js = ["mermaid-init.js", "mermaid.min.js"]
+default-theme = "Rust"
+no-section-label = true
