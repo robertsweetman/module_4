@@ -7,3 +7,15 @@
 ● Focus on scalability, performance optimization, security, and regulatory compliance.
 ● Ensure flexibility for future changes and adherence to best practices.
 -->
+
+<!-- 
+
+RUBRIC - B
+
+Designs a robust data product, including sophisticated strategies for data extraction, transformation, and loading. Implements this design using appropriate techniques, ensuring compatibility and scalability. Conducts comprehensive testing and debugging.
+
+RUBRIC - A
+
+Designs a sophisticated data product, including sophisticated strategies for data extraction, transformation, and loading. Implements this design using appropriate techniques, ensuring compatibility and scalability. Conducts comprehensive testing and debugging. Includes automation and scheduling for optimal performance
+
+-->

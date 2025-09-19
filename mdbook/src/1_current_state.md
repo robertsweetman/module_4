@@ -14,3 +14,14 @@ Highlight key findings and provide actional recommendations
 <!--
 Detail a comprehensive needs analysis highlighting data related needs and pain points
 -->
+
+<!-- 
+
+RUBRIC - B 
+
+Analyses organisational data architecture, focusing on its alignment with business initiatives. Provides clear and actionable recommendations for improvement.
+
+RUBRIC - A
+
+Critically evaluates organisational data architecture against business initiatives. Provides a comprehensive and strategic set of recommendations for improvement, supported by clear explanations and persuasive rationale. 
+-->
