@@ -17,6 +17,8 @@ Detail a comprehensive needs analysis highlighting data related needs and pain p
 
 <!-- 
 
+Critically evaluate the design and implementation of organisational data architecture against business initiatives
+
 RUBRIC - B 
 
 Analyses organisational data architecture, focusing on its alignment with business initiatives. Provides clear and actionable recommendations for improvement.

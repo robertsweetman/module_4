@@ -1,4 +1,4 @@
-# Stakeholder Engegement <!-- 500 words -->
+# Stakeholder Engegement & crafting a solution <!-- 500 words -->
 
 ## Key stakeholders and requirements
 <!-- 
@@ -7,15 +7,22 @@ Identify key stakeholders, then gather and prioritise requirements
 
 ## Research
 <!-- 
+Using relevant data analysis techniques
+  - analyse stakeholder feedback
+  - research and compare potential organisational data solutions
+
 Research and compare potential organisational data solutions to generate ideas for developing a data solution
 -->
 
 ## Stakeholder feedback
 <!--
-Gather initial stakeholder feedback, and present the final recommendation to decision-makers for approval
+Generate Ideas for developing a data solution, or update to data architecture
+Use data viz tools to present insights and gather initial stakeholder feedback
 -->
 
 <!-- 
+
+Demostrate a funcamental understanding of how to implement a data analytics and/or engineering solution to measure and realise value.
 
 RUBRIC - B
 

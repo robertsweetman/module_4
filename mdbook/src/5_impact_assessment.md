@@ -8,12 +8,14 @@
 
 <!-- 
 
+Develops a value analysis showing the potential impact of a data-driven solution and distinctly justify your approach to stakeholders (K14)
+
 RUBRIC - B
 
-Develops a comprehensive value analysis showing the potential impact of a data-driven solution. Includes thorough analysis of stakeholder needs and clear justification for the approach.
+Develops a value analysis that quantifies the potential impact of a data-driven solution across multiple business metrics. Includes thorough analysis of stakeholder needs from key departments. Provides a clear implementation plan with defined milestones.
 
 RUBRIC - A
 
-Develops a sophisticated value analysis showing the potential impact of a data-driven solution. Includes in-depth analysis of stakeholder needs and a persuasive justification for the approach. Provides clear and actionable recommendations for rollout. 
+Develops a multi-faceted value analysis that quantifies short-term and long term impacts of a data-driven solution, including ROI projections. Incorporating analysis of stakeholder needs across all levels of the organisation. Provides a detailed implementation plan with phased rollout strategy, specific KPI's for each phase and contingency plans. 
 
 -->
