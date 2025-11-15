@@ -1,6 +1,10 @@
-# Proof of Concept
+# Proof of Concept <!-- 500 -->
 
-<!-- 
+Do this part (scraping) in Python initially - inc the ETL piece
+
+Possibly use Jupyter notebooks for this?
+
+<!--
 Design, implement and debug a data product
 
 
