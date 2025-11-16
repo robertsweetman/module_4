@@ -26,7 +26,8 @@ foreach ($file in $files)
 
     if ($wordCount -gt $($file.Limit))
     {
-        Write-Host "Oops: Chapter Word Count > Word Limit"
+        $wordsOverChapterLimit = $wordcount - $($file.Limit)
+        Write-Host "Oops: Chapter Word Count > Word Limit by $wordsOverChapterLimit words" -ForeGroundColor "Red"
     }
 
     # calculate total word count

@@ -51,8 +51,19 @@ Each of these groups have differing requirements, arguably split between busines
 
 ## Research
 
-###
+### Database Options
 
+Taking the characteristics of the data into account means we can rule out certain database types.
+
+It's not streaming, unstructured data so no-sql/schema less data types aren't really valuable here. While you could consider each tender record to be a "document" there really isn't the update frequency, scalability issues or fault tolerance requirements for less than 3000 records.
+
+We can use a traditional SQL scheme approach because the structure of the data is well understood, it doesn't update 'that' often and we can use traditional backup methods rather than having to worry about scaling or data-replication. (REF: need a table/article justifying this)
+
+What is possibly open for debate is how to load/update and interact with the database. Should it be in the cloud? Which one? Should it be hosted on a server or as a service? Which particular flavour of SQL should we use? Postgresql? Microsoft SQL?
+
+From talking to Technical & Support stakeholders do know it needs to interact with Microsoft services (Dynamics 365) and connect to Azure, if not run on it entirely so that bears more research.
+
+TODO: WHAT ARE THE OPTIONS HERE?
 
 <!--
 Using relevant data analysis techniques
@@ -68,11 +79,19 @@ NOTES:
 
 -->
 
-
+TODO: How to do requirements prioritisation? Can we do a swot analysis somehow or other weighting
 
 ## Stakeholder feedback
 
-We'll
+We'll need to present the ideas visually where possible, both from a sales and technical perspective. The Sales component needs to focus primarily on business outcomes.
+
+TODO: Insert a business process flow diagram here which closes the loop and shows enhancing outcomes for the data gathering/tender responding/feedback and improvement process.
+
+TODO: Insert a technical architecture diagram here which focusses on deployability, loggin, auth (security) and maintainability.
+
+We could also list technical options (at least) with reasons why they were rejected.
+
+This also needs to mention testing and flexible design.
 
 <!--
 Generate Ideas for developing a data solution, or update to data architecture
