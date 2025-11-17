@@ -116,3 +116,20 @@ RUBRIC - A
 
 Critically evaluates organisational data architecture against business initiatives. Provides a comprehensive and strategic set of recommendations for improvement, supported by clear explanations and persuasive rationale.
 -->
+
+<!--
+# Milestone 1
+  - Complete a detailed evaluation and restructure proposal for an existing database architecture, focusing on ACID principles and stakeholder requirements.
+
+## Data Architecture Analysis
+  - Map out the existing data sources and describe the relationships between them.
+  - Evaluate the alignment of the current architecture with ACID principles, scalability, and performance.
+  - Identify pain points related to the data architecture, focusing on areas affecting data quality and accessibility.
+## Data Integration Challenges and Solution Proposal
+  - Discuss integration challenges (data quality, compliance, security) and their impacts on business operations.
+  - Develop a restructuring proposal, prioritizing stakeholder needs and outlining improvements in data flow and quality.
+  - Include a brief comparison of two potential architectural solutions or tools, with a focus on security and compliance.
+
+IMPORTANT: Create an ERD in lucidchart
+
+-->

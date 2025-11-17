@@ -163,3 +163,16 @@ We must follow responsible AI principals (REF:) with a human in the loop to chec
 ● Focus on scalability, performance optimization, security, and regulatory compliance.
 ● Ensure flexibility for future changes and adherence to best practices.
 -->
+
+<!-- Milestone 2
+## Design and develop a scalable, secure ETL pipeline proof of concept that adheres to industry best practices.
+  - Stakeholder Identification and Needs Analysis
+  - Identify key stakeholders involved in the data engineering process and detail their roles.
+  - Conduct a needs analysis based on stakeholder feedback, categorizing primary requirements and challenges.
+  - Prioritize these needs in alignment with business goals and outline high-level requirements for a data solution.
+## ETL Process Requirements and Solution Selection
+  - Specify the ETL process requirements, focusing on data types, flow frequency, volume, and data quality standards.
+  - Compare and evaluate at least two ETL tools or frameworks (e.g., Apache Airflow vs. AWS Glue) for their alignment with organizational requirements.
+  - Justify the selection based on criteria like performance, scalability, security, and regulatory compliance.
+-->
+
