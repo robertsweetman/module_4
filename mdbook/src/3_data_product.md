@@ -20,48 +20,52 @@ There are effectively 4 data sources when it comes to updating the database so t
 
 ## DB Schema
 
-**eTenders Core data**
- - resource_id is the primary key (PK)
- - title
- - contracting authority
- - tender submission deadline
- - procedure
- - status
- - PDF URL
- - award date
- - estimated value
- - cycle
+### eTenders Core data
+
+- resource_id is the primary key (PK)
+- title
+- contracting authority
+- tender submission deadline
+- procedure
+- status
+- PDF URL
+- award date
+- estimated value
+- cycle
 
  Initial load: ~2300 records (230 pages x 10 rows)
  Update Frequency: Daily incremental scrapes for new tenders
 
-**eTenders PDF**
- - document_id (PK)
- - tender_id is the foreign key (FK)
- - PDF URL
- - raw text
- -
+### eTenders PDF
 
- **Bid Submissions** - Internal Sales process tracking
+- document_id (PK)
+- tender_id is the foreign key (FK)
+- PDF URL
+- raw text
+-
 
- ## Data Product
+## Bid Submissions** - Internal Sales process tracking
 
-
+## Data Product
 
 ### Testing
 
 This exists to ensure data quality and overall system reliability
 
 #### Unit Testing
+
 We can use Python to test things like web scraping accuracy by validating the extraced fields match the source data. We can test PDF parsing by AI against a set of sample PDF's that we already know the content of. We should also check the data types being parsed and written to the database.
 
 #### Integration Testing
+
 This is the category of 'does the database work in relation to the things it's connected to' like the Power Automate connections, MCP Server (if we choose to implement one) and what happens when we try to inject or append malformed data to the database?
 
 #### User Acceptance Testing
+
 The various user groups need to be happy that the solution is workable for them. Can the Sales team easily update information about a bid from their point of view? Does the Support team have enough logging available to see whether something has gone wrong?
 
 #### Automated Testing
+
 We should have something run on a daily basis to check that the eTenders information is still accessible and the formatting of that hasn't changed.
 
 ### Scalability
@@ -175,4 +179,3 @@ We must follow responsible AI principals (REF:) with a human in the loop to chec
   - Compare and evaluate at least two ETL tools or frameworks (e.g., Apache Airflow vs. AWS Glue) for their alignment with organizational requirements.
   - Justify the selection based on criteria like performance, scalability, security, and regulatory compliance.
 -->
-
