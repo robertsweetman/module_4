@@ -125,5 +125,19 @@ Critically evaluates organisational data architecture against business initiativ
   - Include a brief comparison of two potential architectural solutions or tools, with a focus on security and compliance.
 
 IMPORTANT: Create an ERD in lucidchart
+-->
 
+<!-- 
+VERY IMPORTANT POINTS FROM REVIEW WITH JOE
+
+1. Where possibe EVALUATE choices against a set of criteria
+ - explain
+ - analyse
+ - pros/cons
+ - EVALUATE
+
+2. LO3 is a TRAP 
+ - design, implement, DEBUG (examples of how to debug), automation and scheduling 
+
+3. Look at EVERY word in the rubric and make sure it's being covered somehow.
 -->
