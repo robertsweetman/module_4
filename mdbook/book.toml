@@ -5,9 +5,6 @@ multilingual = false
 src = "src"
 title = "Data Engineering"
 
-[rust]
-edition = "2018"
-
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
 
