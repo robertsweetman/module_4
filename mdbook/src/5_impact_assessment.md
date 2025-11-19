@@ -3,9 +3,9 @@
 Let's not forget that SALES generate REVENUE
 
 ## Data product goals
-- Pass a security audit
- - Microsoft security tools/checking
 
+- Pass a security audit
+- Microsoft security tools/checking
 
 ## Data product monitoring
 

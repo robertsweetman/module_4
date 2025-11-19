@@ -2,8 +2,6 @@
 
 The eTenders application is designed to eliminate the time wasted reading through 50 emails per day and uses AI to discern which tenders should be responded to.
 
-
-
 ## Data Management
 
 <!-- The data load of eTenders is currently carried out in a pretty naive fashion. -->
@@ -59,12 +57,12 @@ Reducing the daily tender analysis time has benefited the sales team but the str
 There are also technical challenges in the way this proof-of-concept (POC) has been delivered:
 
 - Runs in AWS, not Azure
- - The business only runs Azure hosted infra
- - The support/ops team are not set up to support AWS hosted apps
+- The business only runs Azure hosted infra
+- The support/ops team are not set up to support AWS hosted apps
 - Uses Rust for Lambda's
- - The business isn't familiar with Rust and can't support it properly
+- The business isn't familiar with Rust and can't support it properly
 - The Postgresql database is still open to the internet
- - While this is a pragmatic solution for a POC it's not okay for any sort of production system
+- While this is a pragmatic solution for a POC it's not okay for any sort of production system
 
 PUT MORE HERE
 
@@ -72,13 +70,9 @@ PUT MORE HERE
 Highlight key findings and provide actional recommendations
 -->
 
-
-
 <!--
 Evaluate the current state of data management at your organisation, including data source integration, storage, quality, compliance with GDPR/HIPAA, security, and tool effectiveness.
 -->
-
-
 
 ## Needs Analysis
 <!--

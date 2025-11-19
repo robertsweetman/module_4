@@ -25,9 +25,6 @@ TODO: have a diagram of this
 <!--
 Design, implement and debug a data product
 
-
-
-
 RUBRIC - B
 
 Develop a comprehensive data product meeting business requirements, with focus on scalability, performance, security and compliance. Conducts thorough testing and logging
