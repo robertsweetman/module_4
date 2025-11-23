@@ -1,0 +1,222 @@
+[
+  {
+    "code": "48000000",
+    "description": "Software package and information systems"
+  },
+  {
+    "code": "72000000",
+    "description": "IT services - consulting"
+  },
+  {
+    "code": "72100000",
+    "description": "Hardware consultancy services"
+  },
+  {
+    "code": "72110000",
+    "description": "Hardware selection consultancy services"
+  },
+  {
+    "code": "72120000",
+    "description": "Hardware disaster-recovery consultancy services"
+  },
+  {
+    "code": "72130000",
+    "description": "Computer - site planning consultancy services"
+  },
+  {
+    "code": "72140000",
+    "description": "Computer hardware acceptance testing consultancy services"
+  },
+  {
+    "code": "72150000",
+    "description": "Computer audit consultancy and hardware consultancy services"
+  },
+  {
+    "code": "72200000",
+    "description": "Software programming and consultancy services"
+  },
+  {
+    "code": "72210000",
+    "description": "Programming services of packaged software products"
+  },
+  {
+    "code": "72220000",
+    "description": "Systems and technical consultancy services"
+  },
+  {
+    "code": "72221000",
+    "description": "Business analysis consultancy services"
+  },
+  {
+    "code": "72222000",
+    "description": "Information systems or technology strategic review and planning services"
+  },
+  {
+    "code": "72222100",
+    "description": "Information systems or technology strategic review services"
+  },
+  {
+    "code": "72222200",
+    "description": "Information systems or technology planning services"
+  },
+  {
+    "code": "48190000",
+    "description": "Educational software package"
+  },
+  {
+    "code": "48200000",
+    "description": "Networking"
+  },
+  {
+    "code": "72320000",
+    "description": "Database services"
+  },
+  {
+    "code": "72321000",
+    "description": "Added-value database services"
+  },
+  {
+    "code": "72322000",
+    "description": "Data management services"
+  },
+  {
+    "code": "72330000",
+    "description": "Content or data standardization and classification services"
+  },
+  {
+    "code": "72400000",
+    "description": "Internet services"
+  },
+  {
+    "code": "48220000",
+    "description": "Internet and intranet software package"
+  },
+  {
+    "code": "48300000",
+    "description": "Document creation"
+  },
+  {
+    "code": "48100000",
+    "description": "Industry specific software package"
+  },
+  {
+    "code": "48400000",
+    "description": "Business transaction and personal business software package"
+  },
+  {
+    "code": "48480000",
+    "description": "Sales"
+  },
+  {
+    "code": "48500000",
+    "description": "Communication and multimedia software package"
+  },
+  {
+    "code": "48600000",
+    "description": "Database and operating software package"
+  },
+  {
+    "code": "48700000",
+    "description": "Software package utilities"
+  },
+  {
+    "code": "48900000",
+    "description": "Miscellaneous software package and computer systems"
+  },
+  {
+    "code": "72222300",
+    "description": "Information technology services"
+  },
+  {
+    "code": "72223000",
+    "description": "Information technology requirements review services"
+  },
+  {
+    "code": "72224000",
+    "description": "Project management consultancy services"
+  },
+  {
+    "code": "72224100",
+    "description": "System implementation planning services"
+  },
+  {
+    "code": "72224200",
+    "description": "System quality assurance planning services"
+  },
+  {
+    "code": "72225000",
+    "description": "System quality assurance assessment and review services"
+  },
+  {
+    "code": "72226000",
+    "description": "System software acceptance testing consultancy services"
+  },
+  {
+    "code": "72227000",
+    "description": "Software integration consultancy services"
+  },
+  {
+    "code": "72228000",
+    "description": "Hardware integration consultancy services"
+  },
+  {
+    "code": "72300000",
+    "description": "Data services"
+  },
+  {
+    "code": "72310000",
+    "description": "Data-processing services"
+  },
+  {
+    "code": "72421000",
+    "description": "Internet or intranet client application development services"
+  },
+  {
+    "code": "72422000",
+    "description": "Internet or intranet server application development services"
+  },
+  {
+    "code": "72500000",
+    "description": "Computer-related services"
+  },
+  {
+    "code": "72510000",
+    "description": "Computer-related management services"
+  },
+  {
+    "code": "72540000",
+    "description": "Computer upgrade services"
+  },
+  {
+    "code": "72590000",
+    "description": "Computer-related professional services"
+  },
+  {
+    "code": "72600000",
+    "description": "Computer support and consultancy services"
+  },
+  {
+    "code": "72610000",
+    "description": "Computer support services"
+  },
+  {
+    "code": "72700000",
+    "description": "Computer network services"
+  },
+  {
+    "code": "72800000",
+    "description": "Computer audit and testing services"
+  },
+  {
+    "code": "72900000",
+    "description": "Computer back-up and catalogue conversion services"
+  },
+  {
+    "code": "73100000",
+    "description": "Research and experimental development services"
+  },
+  {
+    "code": "73200000",
+    "description": "Research and development consultancy services"
+  }
+]

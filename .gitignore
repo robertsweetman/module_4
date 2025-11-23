@@ -1,5 +1,12 @@
 wordcount_*.md
 wordcount_*.txt
 .DS_Store
+
+# Python 
 venv/
 */venv/*
+.env
+
+# Output directories and files
+outputs/
+*_errors.log

@@ -5,7 +5,7 @@ Let's not forget that SALES generate REVENUE
 ## Data product goals
 
 - Pass a security audit
-- Microsoft security tools/checking
+- Microsoft security tools/checking doesn't flag any high or critical risk items
 
 ## Data product monitoring
 
@@ -18,6 +18,53 @@ NOTE: FOCUS MOST OF THE CONTENT OF THIS SECTION HERE!!
 How do you visualize this properly? visualisations!!
 
 ## Implementation and Rollout Plan
+
+In order to de-risk the development and deployment of the solution we can take a phased approach
+
+### Phase 1: Prototype (6w)
+
+The goal is to validate the technical feasibility as well as ensure all stakeholder feedback has been considered. We can use the following KPI's to ensure all the requirements have been met:
+
+- Majority (>80%?) of stakeholders approve moving forwards
+- Technically feasible in that eTenders can be obtained, stored and processed
+- Prototype can be created with a set of minimum features (MVP)
+
+#### Phase 1: Contingency
+
+If the PoC proves challenging then pivot to using a different datasource, running everything manually for a while or deploying as something other than a container. Azure Functions might be an alternative.
+
+### Phase 2: Development and Deployment (6w)
+
+Phase 2 goal is to develop and deploy the solution securely in the cloud paying attention to the following measures to validate success:
+
+- Test coverage that ensures code quality
+- Successful deployment to the Azure cloud environment
+- Resources deployed pass Microsoft's cloud security checks
+
+#### Phase 2: Contingency
+
+Deployment might be delayed to allow security issues to be patched or possibly the run-rate budget might need to increase to include higher cost protections like Nat Gateways and Azure AD for access.
+
+### Phase 3: Business Validation (3w)
+
+The goal here is to be able to demonstrate business value and validate user adoption in the short term. Longer term measures will only come to light after several bid cycles have been completed.
+
+#### Short term business measures
+
+- High (>80%) uptake of using the tool by the Sales Team
+- Reduction in reported sales admin (time) by Sales Team
+- User satisfaction survey reports improvement (anonymous Sales Team survey)
+
+#### Long term business measures
+
+- Overall increase in bids won (revenue) over a 6 - 12 month period
+- Identify more opportunities to bid on
+- Additional features and integrations are requested by the Sales Team as this proves the product is becoming more useful to the business overall
+- Additional requests for analytics and dashboards from Sales Management which again shows interest and buy-in
+
+#### Phase 3 Contingency
+
+If users struggle then additional training would have to be considered and for some users to be selected to champion the use of this tool as a replacement for out-dated manual processes. As with all implementations buy in and support from Management is essential for success. (REF:?)
 
 <!-- markdownlint-disable MD033 -->
 <style>
@@ -118,41 +165,23 @@ gantt
     axisFormat %b '%y
     tickInterval 1month
 
-    Stakeholders Discussion :a1, 2025-07-01, 2w
-    Data Gathering         :a2, after a1, 3w
-    Prototype              :a3, after a2, 5w
-    Stakeholders Review :crit, a4, after a3, 1w
-    Go/No-Go Decision       :crit, milestone, a5, after a4, 0d
-```
+    section Phase 1: Prototype
+    Requirements Gathering :a1, 2025-07-01, 2w
+    Prototype              :a2, after a1, 3w
+    Stakeholder Review :crit, a3, after a2, 1w
+    Go/No-Go Decision       :crit, milestone, a4, after a3, 0d
 
-```mermaid
-gantt
-    title Development
-    dateFormat YYYY-MM-DD
-    axisFormat %b '%y
-    tickInterval 1month
+    section Phase 2: Development & Deployment
+    Sprint 1 :a5, after a4, 2w
+    Sprint 2 :a6, after a5, 2w
+    Container deployment using IAC :a7, after a6, 1w
+    Security Audit :crit, a8, after a7, 1w
 
-    Architecture :a1, 2025-10-01, 2w
-    Planning :crit, a2, 2025-10-01, 2w
-    Sprint 1 :a3, after a2, 2w
-    Sprint 2 :a4, after a3, 2w
-    Sprint 3 :a5, after a4, 2w
-    Sprint 4 :a6, after a5, 2w
-```
-
-```mermaid
-gantt
-    title Deployment
-    dateFormat YYYY-MM-DD
-    axisFormat %b '%y
-    tickInterval 1month
-
-    IaC deployment :a1, 2026-01-01, 1w
-    Smoke Test :a2, after a1, 3w
-    Go/No-Go Live :milestone, crit, a3, after a2, 0d
-    Live Trial :a4, after a3, 2w
-    Gather User Feedback :a5, after a4, 2w
-    Update Model :crit, a6, after a5, 2w
+    section Phase 3: Business Validation
+    User Acceptance Testing :a9, after a8, 1w
+    User Feedback :a10, after a9, 1w
+    Performance Monitoring :a11, after a10, 1w
+    Production Live :milestone, after a11, 0d 
 ```
 
 <!--

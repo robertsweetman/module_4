@@ -1,25 +1,26 @@
 """
 eTenders.gov.ie Web Scraper
-Scrapes tender data from the eTenders website and exports to CSV
+Scrapes tender data from the eTenders website
+Yields individual records for pipeline processing
 """
 
 import requests
 from bs4 import BeautifulSoup
-import csv
 import time
-from typing import List, Dict
+from typing import Generator, Dict
 import re
 
 
-def scrape_etenders_page(page_number: int) -> List[Dict[str, str]]:
+def scrape_etenders_page(page_number: int) -> Generator[Dict[str, str], None, None]:
     """
     Scrape tender data from a single page of eTenders website.
+    Yields individual tender records for pipeline processing.
     
     Args:
         page_number: The page number to scrape (1-231)
         
-    Returns:
-        List of dictionaries containing tender data
+    Yields:
+        Dictionary containing tender data for each record
     """
     url = f"https://www.etenders.gov.ie/epps/quickSearchAction.do?d-3680175-p={page_number}&searchType=cftFTS&latest=true"
     
@@ -41,9 +42,7 @@ def scrape_etenders_page(page_number: int) -> List[Dict[str, str]]:
         
         if not table:
             print(f"Warning: No table found on page {page_number}")
-            return []
-        
-        tenders = []
+            return
         
         # Find all table rows (skip header row)
         rows = table.find_all('tr')
@@ -105,111 +104,48 @@ def scrape_etenders_page(page_number: int) -> List[Dict[str, str]]:
             if len(cols) > 12:
                 tender_data['cycle'] = cols[12].get_text(strip=True)
             
-            tenders.append(tender_data)
+            yield tender_data
         
-        print(f"Found {len(tenders)} tenders on page {page_number}")
-        return tenders
+        print(f"Processed page {page_number}")
         
     except requests.RequestException as e:
         print(f"Error scraping page {page_number}: {e}")
-        return []
+        return
     except Exception as e:
         print(f"Unexpected error on page {page_number}: {e}")
-        return []
+        return
 
 
-def scrape_all_pages(start_page: int = 1, end_page: int = 231, delay: float = 1.0) -> List[Dict[str, str]]:
+def scrape_pages(start_page: int = 1, end_page: int = 231, delay: float = 1.0) -> Generator[Dict[str, str], None, None]:
     """
-    Scrape tender data from all pages.
+    Scrape tender data from multiple pages.
+    Yields individual records for pipeline processing.
     
     Args:
         start_page: First page to scrape (default: 1)
         end_page: Last page to scrape (default: 231)
         delay: Delay between requests in seconds (default: 1.0)
         
-    Returns:
-        List of all tender data dictionaries
+    Yields:
+        Individual tender data dictionaries
     """
-    all_tenders = []
-    
     for page in range(start_page, end_page + 1):
-        tenders = scrape_etenders_page(page)
-        all_tenders.extend(tenders)
+        for tender in scrape_etenders_page(page):
+            yield tender
         
         # Add delay to be respectful to the server
         if page < end_page:
             time.sleep(delay)
-    
-    print(f"\nTotal tenders scraped: {len(all_tenders)}")
-    return all_tenders
 
 
-def export_to_csv(tenders: List[Dict[str, str]], output_file: str = 'etenders_data.csv') -> None:
-    """
-    Export tender data to a CSV file.
-    
-    Args:
-        tenders: List of tender data dictionaries
-        output_file: Output CSV filename (default: 'etenders_data.csv')
-    """
-    if not tenders:
-        print("No data to export")
-        return
-    
-    # Define CSV columns based on dictionary keys
-    fieldnames = [
-        'row_number',
-        'title',
-        'detail_url',
-        'resource_id',
-        'contracting_authority',
-        'info',
-        'date_published',
-        'submission_deadline',
-        'procedure',
-        'status',
-        'notice_pdf_url',
-        'award_date',
-        'estimated_value',
-        'cycle'
-    ]
-    
-    try:
-        with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            
-            # Write header
-            writer.writeheader()
-            
-            # Write data rows
-            for tender in tenders:
-                writer.writerow(tender)
-        
-        print(f"\nData successfully exported to {output_file}")
-        print(f"Total rows: {len(tenders)}")
-        
-    except Exception as e:
-        print(f"Error exporting to CSV: {e}")
-
-
-# Example usage
 if __name__ == "__main__":
     # Test with first page only
     print("Testing scraper with page 1...")
-    test_data = scrape_etenders_page(1)
+    count = 0
+    for tender in scrape_etenders_page(1):
+        count += 1
+        if count == 1:
+            print(f"\nSample record:")
+            print(tender)
     
-    if test_data:
-        print(f"\nSample record:")
-        print(test_data[0])
-        
-        # Export test data
-        export_to_csv(test_data, 'etenders_test.csv')
-    
-    # Uncomment below to scrape all pages (this will take time!)
-    # print("\n" + "="*50)
-    # print("Starting full scrape of all 231 pages...")
-    # print("This may take several minutes...")
-    # print("="*50 + "\n")
-    # 
-    # all_data = scrape_all_pages(start_page=1, end_page=231, delay=1.0)
-    # export_to_csv(all_data, 'etenders_full_data.csv')
+    print(f"\nTotal records from page 1: {count}")

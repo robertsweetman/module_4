@@ -19,6 +19,12 @@ foreach ($file in $files)
     # Remove HTML comments (<!-- ... -->)
     $contentWithoutComments = $content -replace '<!--[\s\S]*?-->', ''
 
+    # Remove <style> tags and their content
+    $contentWithoutComments = $contentWithoutComments -replace '<style[\s\S]*?</style>', ''
+
+    # Remove mermaid code blocks (```mermaid ... ```)
+    $contentWithoutComments = $contentWithoutComments -replace '```mermaid[\s\S]*?```', ''
+
     # Count words after removing comments
     $wordCount = ($contentWithoutComments | Measure-Object -Word).Words
 
@@ -26,7 +32,7 @@ foreach ($file in $files)
 
     if ($wordCount -gt $($file.Limit))
     {
-        $wordsOverChapterLimit = $wordcount - $($file.Limit)
+        $wordsOverChapterLimit = $wordCount - $($file.Limit)
         Write-Host "Oops: Chapter Word Count > Word Limit by $wordsOverChapterLimit words" -ForeGroundColor "Red"
     }
 
