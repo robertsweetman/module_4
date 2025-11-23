@@ -69,5 +69,5 @@ The scraper captures the following fields:
 ## Notes
 
 - The script includes a 1-second delay between requests by default to avoid overwhelming the server
-- Scraping all 231 pages will take approximately 4-5 minutes
+- Scraping all 231 pages will take approximately 4-5 minutes BUT now that additional AI steps have been introduced this might take a few hours intially
 - The script handles errors gracefully and will continue scraping even if individual pages fail
