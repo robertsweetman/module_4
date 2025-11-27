@@ -41,6 +41,7 @@ def process_record(record: Dict[str, Any],
     
     # Stage 2: PDF parsing - creates separate PDF record
     pdf_record = None
+    enriched = tender_record  # Default to tender_record if no PDF processing
     if process_pdfs and tender_record.get('has_pdf_url'):
         enriched = enrich_record_with_pdf(tender_record, debug=debug)
         if enriched.get('pdf_parsed') and enriched.get('pdf_data'):
@@ -52,9 +53,10 @@ def process_record(record: Dict[str, Any],
             }
     
     # Stage 3: CPV code checking - creates separate CPV record
+    # Use enriched record which has PDF data with CPV codes
     cpv_record = None
     if check_cpvs:
-        enriched_cpv = check_cpv_codes(tender_record if pdf_record else tender_record)
+        enriched_cpv = check_cpv_codes(enriched)
         if enriched_cpv.get('cpv_count', 0) > 0:
             cpv_record = {
                 'resource_id': resource_id,
