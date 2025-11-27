@@ -30,7 +30,7 @@ jobs:
         run: |
           # Create images directory at the root and copy images from mdbook/src/images
           mkdir -p images
-          cp -r mdbook/src/images/* images/
+          cp -r mdbook/images/* images/
 
           # Verify the images are in place
           ls -la images/
