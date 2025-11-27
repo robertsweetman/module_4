@@ -2,7 +2,10 @@
 authors = ["robertsweetman"]
 language = "en"
 src = "src"
-title = "Data Engineering"
+title = "Driving Business Value with Data Engineering"
+
+[build]
+extra-watch-dirs = ["images"]
 
 [preprocessor.mermaid]
 command = "mdbook-mermaid"

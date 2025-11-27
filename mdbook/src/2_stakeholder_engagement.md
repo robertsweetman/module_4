@@ -47,7 +47,7 @@ Each of these groups have differing requirements, arguably split between busines
 |             | Change management process           | Medium   |
 -->
 
-![Requirements](../images/Requirements.png)
+![Requirements](images/Requirements.png)
 
 ## Research
 
@@ -82,8 +82,6 @@ We can look at options with a weighting, including a noSQL option for comparison
 | **Weighted Score** | | **8.0** | **8.6** | **6.6** |
 
 From this SWOT analysis, Azure hosted PostgreSQL is the preferred option, especially because we can also develop the entire solution using locally hosted PostgreSQL.
-
-
 
 <!--
 Using relevant data analysis techniques
@@ -158,7 +156,6 @@ flowchart TD
 
 Since the technical stakeholders are also very important we should aim to get their buy in but this time the focus is on data-flow, integration with other tools, ease of support, security, logging and upgradeability.
 
-
 ```mermaid
 graph TB
     subgraph "External Systems"
@@ -228,7 +225,6 @@ graph TB
     style Backup fill:#6bcf7f
     style PostgreSQL fill:#336791
 ```
-
 
 We could also list technical options (at least) with reasons why they were rejected.
 

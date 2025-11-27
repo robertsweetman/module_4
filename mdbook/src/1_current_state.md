@@ -26,11 +26,11 @@ The database of tender records isn't the 'product' in this case. The 'respond to
 
 The application uses AWS Lamdba's written in Rust so from a basic data-gathering perspective we can make use of Rust's struct objects. Rust structs (doc.rust-lang.org, n.d.) are essentially custom objects which are the 'record' being moved and modified through the ETL pipeline.
 
-![TenderRecordRaw](../images/TenderRecordRaw.png)
+![TenderRecordRaw](images/TenderRecordRaw.png)
 
 Initially everything is collected as a String type and then parsed into a more appropriate type.
 
-![TenderRecord](../images/TenderRecord.png)
+![TenderRecord](images/TenderRecord.png)
 
 This TenderRecord struct is now the base object which is either passed between Lambda's or written to the database. It's not a critical consideration but Rust as a language can perform these sorts of data type changes very quickly. Rust is faster than other languages, with the possible exception of C/C+ (Vietnam Software Outsourcing - MOR Software, 2016) which are also compiled languages.
 
