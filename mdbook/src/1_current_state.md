@@ -10,9 +10,9 @@ Initially the goal was to get a simple proof of concept up and running so very l
 
 Storing the eTenders data as rows and then reporting against their status within the processing pipeline was the only consideration in the beginning.
 
-There is no integration with other data sources, the Postgresql database is hosted in AWS RDS (REF:) so it's quite accessible from the Rust AWS Lambda code and can be backed up there.
+There is no integration with other data sources, the Postgresql database is hosted in AWS RDS (Amazon Web Services, Inc., 2019) so it's quite accessible from the Rust AWS Lambda code and can be backed up there.
 
-However to avoid an expensive proof-of-concept it is still open to the web (via username and password) since putting it behind a Gateway (REF: get gateway type) to increase security costs an additional £30 per month.
+However to reduce costs it is still open to the web (via username and password) since putting it behind an AWS Nat Gateway (AWS, 2020) to increase security costs an additional £30 per month.
 
 The database is accessible via a bastion jumpserver so that developers can run psql queries against it but this is primarly for development purposes. It serves mainly as a state storage device to answer the following questions:
 
@@ -24,7 +24,7 @@ The database of tender records isn't the 'product' in this case. The 'respond to
 
 ### Database table design
 
-The application uses AWS Lamdba's written in Rust so from a basic data-gathering perspective we can make use of Rust's struct objects. REF: Why is this good?
+The application uses AWS Lamdba's written in Rust so from a basic data-gathering perspective we can make use of Rust's struct objects. Rust structs (doc.rust-lang.org, n.d.) are essentially custom objects which are the 'record' being moved and modified through the ETL pipeline.
 
 ![TenderRecordRaw](../images/TenderRecordRaw.png)
 
@@ -32,7 +32,7 @@ Initially everything is collected as a String type and then parsed into a more a
 
 ![TenderRecord](../images/TenderRecord.png)
 
-This TenderRecord struct is now the base object which is either passed between Lambda's or written to the database. It's not a critical consideration but Rust as a language can perform these sorts of data type changes very quickly. Far faster than other languages, with the possible exception of C. REF: proof of this
+This TenderRecord struct is now the base object which is either passed between Lambda's or written to the database. It's not a critical consideration but Rust as a language can perform these sorts of data type changes very quickly. Rust is faster than other languages, with the possible exception of C/C+ (Vietnam Software Outsourcing - MOR Software, 2016) which are also compiled languages.
 
 #### Tender Records Table
 
@@ -46,25 +46,26 @@ No thought has been given to gaining other insights from the data. It's purely b
 
 In most cases each tender has an accompanying PDF that contains more information about the bid process for that particular tender. These PDF's are not always comprehensive and don't always require the same bid process but they do supply the AI pipeline a lot of valuable context when it comes to deciding whether to bid on something or not.
 
-However, from a database point of view, the entire PDF is being stored as a long text string in an accompanying pdf_content column which is linked to the main eTenders table via the resource_id key. REF: check this!!
+However, from a database point of view, the entire PDF is being stored as a long text string in an accompanying pdf_content column which is linked to the main eTenders table via the resource_id key.
 
 ## Key Findings
 
 From talking to stakeholders there has been some very clear feedback.
 
-Reducing the daily tender analysis time has benefited the sales team but the strictly linear workflow (get, parse, analyse, alert) doesn't really leverage the database to deliver further business value beyond this one process.
+Reducing the daily tender analysis time has benefited the sales team but the strictly linear workflow (get, parse, analyse, alert) doesn't really leverage the database to deliver further business value beyond automating this one process. Effectively the business value is somewhat limited, given the maintenance and support requirements.
 
 There are also technical challenges in the way this proof-of-concept (POC) has been delivered:
 
 - Runs in AWS, not Azure
-- The business only runs Azure hosted infra
-- The support/ops team are not set up to support AWS hosted apps
+  - The companies own infra runs in Azure so this is a general blocker to wider adoption
+  - The support/ops team are not set up to support AWS hosted apps
 - Uses Rust for Lambda's
-- The business isn't familiar with Rust and can't support it properly
+  - The business isn't familiar with Rust and can't support it properly
 - The Postgresql database is still open to the internet
+  - This is a significant security issue
 - While this is a pragmatic solution for a POC it's not okay for any sort of production system
 
-PUT MORE HERE
+The current implementation blocks further integrations with other business processes and tools, both from a sales/commercial and technical point of view.
 
 <!--
 Highlight key findings and provide actional recommendations
@@ -80,13 +81,13 @@ Detail a comprehensive needs analysis highlighting data related needs and pain p
 -->
 ### Business Needs
 
-The business needs to place the tender requests firmly within the whole process loop that's is involved in winning a bid. All the current solution does is use AI to help guard against losing the signal within the noise of up to 50 requests per day.
+The organisation needs to place the tender requests firmly within the whole bid response process loop. All the current solution does is use AI to help guard against losing the signal within the noise of up to 50 requests per day. It doesn't really add value beyond that.
 
 How can we capture the tender requests, filter out the ones we (as an IT Solutions Consultancy) are not interested in and tie the success or failure of a particular bid back to the original tender request?
 
 This requires a much more robust and holistic data solution which can be referenced back to other parts of the sales effort.
 
-We could update the database with won and lost tenders to help avoid making common mistakes across losing bids to avoid those next time. Another example might be updating the bid database with notifications from the Irish Government about who won bids to understand more about our competitors.
+We could update the database with won and lost tenders to help avoid repeating mistakes associated with losing bids. Another example might be updating the bid database with notifications from the Irish Government about who won bids to understand more about our competitors.
 
 If we append what we send in response to tenders that might even allow us to leverage AI to create bid response templates, improve our ML tender analysis solution with actual "won bid" data and be more confident anything our ML/AI highlights will net a positive return on the time investment to respond to a tender request.
 

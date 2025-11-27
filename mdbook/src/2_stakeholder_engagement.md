@@ -6,7 +6,7 @@ Identify key stakeholders, then gather and prioritise requirements
 -->
 Key stakeholders are the business leaders responsible for the sales effort in Ireland, the development team who build and deploy internal applications and the support team responsible for ongoing management of their applications.
 
-Each of these groups have differing requirements, arguably split between business and technical considerations. It's clear that the Development and Support team's focus isn't the same since one is more concerned with building and deploying whereas the second team is more interested in running and maintainability.
+Each of these groups have differing requirements, arguably split between business and technical considerations. The Development team's focus is building and deploying whereas the Support team is more interested in operations and maintainability.
 
 - **Sales Team**: Focus on usability, visibility, and deadline management (core business needs)
 - **Tech Team**: Emphasis on security, compliance, and authentication (protecting sensitive tender data)
@@ -57,13 +57,33 @@ Taking the characteristics of the data into account means we can rule out certai
 
 It's not streaming, unstructured data so no-sql/schema less data types aren't really valuable here. While you could consider each tender record to be a "document" there really isn't the update frequency, scalability issues or fault tolerance requirements for less than 3000 records.
 
-We can use a traditional SQL scheme approach because the structure of the data is well understood, it doesn't update 'that' often and we can use traditional backup methods rather than having to worry about scaling or data-replication. (REF: need a table/article justifying this)
+We can use a traditional SQL scheme approach because the structure of the data is well understood, it doesn't change often and we can use traditional backup methods rather than having to worry about scaling or data-replication.
 
-What is possibly open for debate is how to load/update and interact with the database. Should it be in the cloud? Which one? Should it be hosted on a server or as a service? Which particular flavour of SQL should we use? Postgresql? Microsoft SQL?
+- Database schema for tables is well understood
+- Database schema doesn't change frequently
+- Updates (writes) are infrequent
+- Reads are infrequent
+- Total data volume is not large (3000 - 5000 records max)  
 
-From talking to Technical & Support stakeholders do know it needs to interact with Microsoft services (Dynamics 365) and connect to Azure, if not run on it entirely so that bears more research.
+What is possibly open for debate is how to load/update and interact with the database. Should it be in the cloud? Which one? Should it be hosted on a server or as a service? Which particular flavour of SQL should we use? Postgresql? Microsoft SQL? We can use several Azure hosted options (Microsoft.com, 2025)
 
-TODO: WHAT ARE THE OPTIONS HERE?
+From talking to Technical & Support stakeholders we do know it needs to interact with Microsoft services (Dynamics 365) and potentially run in Azure.
+
+We can look at options with a weighting, including a noSQL option for comparison
+
+| Criteria | Weight | Azure SQL | PostgreSQL | Cosmos DB |
+|----------|--------|-----------|------------|-----------|
+| Sales (M365) Integration | 25% | 8/10 | 8/10 | 7/10 |
+| Team Familiarity | 20% | 8/10 | 9/10 | 4/10 |
+| Security & Compliance | 20% | 9/10 | 9/10 | 8/10 |
+| Cost (3-5k records) | 15% | 6/10 | 9/10 | 5/10 |
+| Scalability | 10% | 8/10 | 8/10 | 10/10 |
+| Maintainability | 10% | 9/10 | 8/10 | 7/10 |
+| **Weighted Score** | | **8.0** | **8.6** | **6.6** |
+
+From this SWOT analysis, Azure hosted PostgreSQL is the preferred option, especially because we can also develop the entire solution using locally hosted PostgreSQL.
+
+
 
 <!--
 Using relevant data analysis techniques
@@ -79,15 +99,136 @@ NOTES:
 
 -->
 
-TODO: How to do requirements prioritisation? Can we do a swot analysis somehow or other weighting
-
 ## Stakeholder feedback
 
-We'll need to present the ideas visually where possible, both from a sales and technical perspective. The Sales component needs to focus primarily on business outcomes.
+The commerical team needs to focus primarily on business outcomes and getting feedback on the workflow is far easier when it's explained visually:
 
-TODO: Insert a business process flow diagram here which closes the loop and shows enhancing outcomes for the data gathering/tender responding/feedback and improvement process.
+```mermaid
+flowchart TD
+    Start([Daily Tender Check]) --> Gather[Gather Tender Records<br/>from eTenders.gov.ie]
+    Gather --> PDF[Extract PDF Content<br/>& Metadata]
+    PDF --> CPV{Check CPV Codes<br/>Relevant?}
+    
+    CPV -->|No| Archive[Archive as<br/>Not Relevant]
+    CPV -->|Yes| AI[AI/ML Analysis<br/>Score & Recommend]
+    
+    AI --> Decision{AI Recommendation<br/>Score > Threshold?}
+    Decision -->|No| Archive
+    Decision -->|Yes| Alert[Alert Sales Team<br/>via Email/Dashboard]
+    
+    Alert --> Review[Sales Team Review<br/>in Dashboard]
+    Review --> Pursue{Pursue<br/>Tender?}
+    
+    Pursue -->|No| Declined[Mark as Declined<br/>+ Reason]
+    Pursued -->|Yes| BidPrep[Prepare Bid Response]
+    
+    BidPrep --> UploadDoc[Upload Bid Documents<br/>to Database]
+    UploadDoc --> Submit[Submit Tender Response]
+    
+    Submit --> Track[Track Submission<br/>+ Deadline]
+    Track --> Outcome[Await Tender Outcome]
+    
+    Outcome --> Result{Tender<br/>Result?}
+    Result -->|Won| Won[Update: Tender WON<br/>+ Contract Value]
+    Result -->|Lost| Lost[Update: Tender LOST<br/>+ Competitor Info]
+    
+    Won --> Analysis[Analysis Dashboard<br/>Win/Loss Analytics]
+    Lost --> Analysis
+    Declined --> Analysis
+    Archive --> Analysis
+    
+    Analysis --> Feedback[Feedback Loop:<br/>Improve AI Model]
+    Feedback --> Templates[Generate Response<br/>Templates from Wins]
+    
+    Templates -.->|Improve Future Bids| BidPrep
+    Feedback -.->|Retrain Model| AI
+    
+    Analysis --> Reports[Generate Reports:<br/>- Success Rate by CPV<br/>- Competitor Analysis<br/>- Response Template Library]
+    
+    Reports --> Start
 
-TODO: Insert a technical architecture diagram here which focusses on deployability, loggin, auth (security) and maintainability.
+    style Start fill:#e1f5e1
+    style Alert fill:#fff3cd
+    style Won fill:#d4edda
+    style Lost fill:#f8d7da
+    style Analysis fill:#d1ecf1
+    style Feedback fill:#cce5ff
+    style Templates fill:#d4edda
+```
+
+Since the technical stakeholders are also very important we should aim to get their buy in but this time the focus is on data-flow, integration with other tools, ease of support, security, logging and upgradeability.
+
+
+```mermaid
+graph TB
+    subgraph "External Systems"
+        ETenders[eTenders.gov.ie<br/>API]
+        M365[Microsoft 365<br/>Dynamics 365]
+        Email[Email Service<br/>SMTP/Graph API]
+    end
+    
+    subgraph "Azure Cloud Platform"
+        subgraph "Application Layer"
+            WebApp[Web Dashboard<br/>ASP.NET/Blazor]
+            API[REST API<br/>Authenticated]
+            Functions[Azure Functions<br/>Scheduled Tasks]
+        end
+        
+        subgraph "Data Layer"
+            PostgreSQL[(Azure PostgreSQL<br/>Managed Service)]
+            BlobStorage[Blob Storage<br/>PDF Documents]
+            AIService[Azure OpenAI<br/>ML Analysis]
+        end
+        
+        subgraph "Security & Monitoring"
+            AAD[Azure AD<br/>SSO/MFA]
+            KeyVault[Key Vault<br/>Secrets Management]
+            Monitor[Application Insights<br/>Logging & Alerts]
+            Backup[Automated Backups<br/>Point-in-Time Recovery]
+        end
+    end
+    
+    subgraph "CI/CD Pipeline"
+        GitHub[GitHub Repo]
+        Actions[GitHub Actions]
+        Deploy[Azure DevOps]
+    end
+    
+    ETenders -->|HTTPS| Functions
+    Functions -->|Write| PostgreSQL
+    Functions -->|Store PDFs| BlobStorage
+    Functions -->|AI Analysis| AIService
+    
+    WebApp -->|Auth| AAD
+    API -->|Auth| AAD
+    WebApp -->|Query| API
+    API -->|Read/Write| PostgreSQL
+    API -->|Retrieve PDFs| BlobStorage
+    
+    PostgreSQL -->|Integration| M365
+    API -->|Alerts| Email
+    
+    API -->|Secrets| KeyVault
+    Functions -->|Secrets| KeyVault
+    
+    WebApp -->|Logs| Monitor
+    API -->|Logs| Monitor
+    Functions -->|Logs| Monitor
+    
+    PostgreSQL -->|Daily| Backup
+    
+    GitHub -->|Trigger| Actions
+    Actions -->|Build & Test| Deploy
+    Deploy -->|Deploy| WebApp
+    Deploy -->|Deploy| Functions
+    
+    style AAD fill:#0078d4
+    style Monitor fill:#ff6b6b
+    style KeyVault fill:#ffd93d
+    style Backup fill:#6bcf7f
+    style PostgreSQL fill:#336791
+```
+
 
 We could also list technical options (at least) with reasons why they were rejected.
 
