@@ -8,5 +8,5 @@ venv/
 .env
 
 # Output directories and files
-outputs/
+outputs/json/
 *_errors.log

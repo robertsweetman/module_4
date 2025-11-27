@@ -12,6 +12,24 @@ from typing import Dict, Any
 from datetime import datetime
 
 
+# Initialize error log file
+PDF_ERROR_LOG = 'pdf_parser_errors.log'
+
+
+def log_error(message: str):
+    """Write error message to log file and print to console."""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_entry = f"[{timestamp}] {message}\n"
+    
+    try:
+        with open(PDF_ERROR_LOG, 'a', encoding='utf-8') as f:
+            f.write(log_entry)
+    except:
+        pass  # Fail silently if can't write to log
+    
+    print(message)
+
+
 def extract_pdf_text(pdf_url: str) -> str:
     """
     Extract text content from a PDF URL.
@@ -32,7 +50,7 @@ def extract_pdf_text(pdf_url: str) -> str:
         return text
         
     except Exception as e:
-        print(f"Error extracting PDF from {pdf_url}: {e}")
+        log_error(f"Error extracting PDF from {pdf_url}: {e}")
         return ''
 
 
@@ -110,10 +128,10 @@ PDF Text:
             parsed = json.loads(json_text)
         except json.JSONDecodeError as je:
             # Log the problematic JSON for debugging
-            print(f"✗ JSON Parse Error at line {je.lineno}, column {je.colno}")
-            print(f"  Error: {je.msg}")
-            print(f"  Problematic JSON (first 500 chars):")
-            print(f"  {json_text[:500]}")
+            log_error(f"✗ JSON Parse Error at line {je.lineno}, column {je.colno}")
+            log_error(f"  Error: {je.msg}")
+            log_error(f"  Problematic JSON (first 500 chars):")
+            log_error(f"  {json_text[:500]}")
             
             # Save to debug file if debug mode enabled
             if debug:
@@ -138,10 +156,10 @@ PDF Text:
                 json_text_fixed = json_match.group(0)
                 try:
                     parsed = json.loads(json_text_fixed)
-                    print("  ✓ Recovered with quote fix")
+                    log_error("  ✓ Recovered with quote fix")
                 except:
                     # Still failed - return raw text fallback
-                    print("  ✗ Could not recover - using raw text fallback")
+                    log_error("  ✗ Could not recover - using raw text fallback")
                     return {
                         'pdf_content': {
                             'full_text': text_content[:15000],
@@ -170,10 +188,10 @@ PDF Text:
         return result_data
         
     except requests.exceptions.ConnectionError:
-        print("✗ Error: Ollama not running. Start it with: ollama serve")
+        log_error("✗ Error: Ollama not running. Start it with: ollama serve")
         return {}
     except Exception as e:
-        print(f"Error parsing with Ollama: {e}")
+        log_error(f"Error parsing with Ollama: {e}")
         # Return raw text as fallback
         return {
             'pdf_content': {
