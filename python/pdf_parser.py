@@ -3,6 +3,7 @@ PDF parser that enriches tender records with parsed PDF data.
 Accepts a tender record, extracts PDF text if URL exists, parses with local Ollama LLM.
 """
 
+import logging
 import requests
 from io import BytesIO
 from pdfminer.high_level import extract_text
@@ -11,6 +12,7 @@ import re
 from typing import Dict, Any
 from datetime import datetime
 
+logger = logging.getLogger(__name__)
 
 # Initialize error log file
 PDF_ERROR_LOG = 'pdf_parser_errors.log'
@@ -41,15 +43,27 @@ def extract_pdf_text(pdf_url: str) -> str:
         Extracted text content or empty string on error
     """
     try:
+        logger.info(f"Downloading PDF from: {pdf_url}")
         response = requests.get(pdf_url, timeout=30)
         response.raise_for_status()
+        
+        pdf_size = len(response.content)
+        logger.debug(f"PDF downloaded: {pdf_size} bytes")
         
         pdf_file = BytesIO(response.content)
         text = extract_text(pdf_file)
         
+        text_length = len(text)
+        logger.info(f"Successfully extracted {text_length} characters from PDF")
+        
         return text
         
+    except requests.RequestException as e:
+        logger.error(f"Failed to download PDF from {pdf_url}: {e}")
+        log_error(f"Error downloading PDF from {pdf_url}: {e}")
+        return ''
     except Exception as e:
+        logger.error(f"Error extracting text from PDF {pdf_url}: {e}", exc_info=True)
         log_error(f"Error extracting PDF from {pdf_url}: {e}")
         return ''
 
@@ -102,6 +116,9 @@ PDF Text:
     
     try:
         # Call Ollama API
+        logger.info(f"Parsing PDF content with Ollama model: {model}")
+        logger.debug(f"Prompt length: {len(prompt)} characters")
+        
         response = requests.post(
             'http://localhost:11434/api/generate',
             json={
@@ -116,6 +133,7 @@ PDF Text:
         
         result = response.json()
         response_text = result.get('response', '')
+        logger.debug(f"Ollama response length: {len(response_text)} characters")
         
         # Parse JSON from response
         # Remove markdown code blocks if present
@@ -126,8 +144,10 @@ PDF Text:
         
         try:
             parsed = json.loads(json_text)
+            logger.info("Successfully parsed Ollama JSON response")
         except json.JSONDecodeError as je:
             # Log the problematic JSON for debugging
+            logger.error(f"JSON Parse Error at line {je.lineno}, column {je.colno}: {je.msg}")
             log_error(f"✗ JSON Parse Error at line {je.lineno}, column {je.colno}")
             log_error(f"  Error: {je.msg}")
             log_error(f"  Problematic JSON (first 500 chars):")
@@ -188,9 +208,11 @@ PDF Text:
         return result_data
         
     except requests.exceptions.ConnectionError:
+        logger.error("Ollama connection failed - service not running")
         log_error("✗ Error: Ollama not running. Start it with: ollama serve")
         return {}
     except Exception as e:
+        logger.error(f"Error parsing with Ollama: {e}", exc_info=True)
         log_error(f"Error parsing with Ollama: {e}")
         # Return raw text as fallback
         return {
@@ -212,18 +234,23 @@ def enrich_record_with_pdf(record: Dict[str, Any], debug: bool = False) -> Dict[
         Record enriched with pdf_data field containing parsed information
     """
     enriched = record.copy()
+    resource_id = record.get('resource_id', 'unknown')
     
     pdf_url = record.get('notice_pdf_url', '')
     
     if not pdf_url:
+        logger.debug(f"No PDF URL for tender {resource_id}")
         enriched['pdf_data'] = None
         enriched['pdf_parsed'] = False
         return enriched
+    
+    logger.info(f"Enriching tender {resource_id} with PDF data")
     
     # Extract PDF text
     text_content = extract_pdf_text(pdf_url)
     
     if not text_content:
+        logger.warning(f"Failed to extract text from PDF for tender {resource_id}")
         enriched['pdf_data'] = None
         enriched['pdf_parsed'] = False
         return enriched
@@ -232,9 +259,11 @@ def enrich_record_with_pdf(record: Dict[str, Any], debug: bool = False) -> Dict[
     parsed_data = parse_pdf_with_ollama(text_content, debug=debug)
     
     if parsed_data:
+        logger.info(f"Successfully enriched tender {resource_id} with PDF data")
         enriched['pdf_data'] = parsed_data
         enriched['pdf_parsed'] = True
     else:
+        logger.warning(f"Failed to parse PDF data for tender {resource_id}")
         enriched['pdf_data'] = None
         enriched['pdf_parsed'] = False
     

@@ -65,6 +65,7 @@ class CSVOutput:
                 # Write directly to file
                 row = {field: flat_record.get(field, '') for field in self.fieldnames}
                 self.csv_writer.writerow(row)
+                self.file_handle.flush()  # Flush after each write to ensure data is written
                 self.records_written += 1
             else:
                 # Buffer in memory

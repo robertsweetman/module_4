@@ -4,8 +4,40 @@ Configurable data pipeline with modular processing stages
 """
 
 import argparse
+import logging
+import sys
 from typing import Generator, Dict, Any
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
+
+
+def setup_logging(enable_logging: bool = False) -> str:
+    """
+    Configure logging if enabled.
+    
+    Args:
+        enable_logging: Whether to enable logging to file and console
+        
+    Returns:
+        Log filename if logging enabled, empty string otherwise
+    """
+    if enable_logging:
+        log_filename = f'etenders_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+        logging.basicConfig(
+            level=logging.INFO,
+            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+            handlers=[
+                logging.FileHandler(log_filename),
+                logging.StreamHandler(sys.stdout)
+            ]
+        )
+        logger.info(f"Logging enabled to: {log_filename}")
+        return log_filename
+    else:
+        # Disable all logging
+        logging.basicConfig(level=logging.CRITICAL + 1)
+        return ''
 
 # Import pipeline stages
 from etenders_scraper import scrape_pages
@@ -38,11 +70,13 @@ def process_record(record: Dict[str, Any],
     # Stage 1: Type coercion - creates tender record
     tender_record = coerce_types(record)
     resource_id = tender_record.get('resource_id')
+    logger.debug(f"Processing tender ID: {resource_id}")
     
     # Stage 2: PDF parsing - creates separate PDF record
     pdf_record = None
     enriched = tender_record  # Default to tender_record if no PDF processing
     if process_pdfs and tender_record.get('has_pdf_url'):
+        logger.debug(f"Processing PDF for tender {resource_id}")
         enriched = enrich_record_with_pdf(tender_record, debug=debug)
         if enriched.get('pdf_parsed') and enriched.get('pdf_data'):
             pdf_record = {
@@ -51,19 +85,30 @@ def process_record(record: Dict[str, Any],
                 'pdf_parsed': True,
                 **enriched['pdf_data']  # Unpack PDF data fields
             }
+            logger.info(f"Successfully parsed PDF for tender {resource_id}")
+        else:
+            logger.warning(f"Failed to parse PDF for tender {resource_id}")
     
     # Stage 3: CPV code checking - creates separate CPV record
     # Use enriched record which has PDF data with CPV codes
     cpv_record = None
     if check_cpvs:
         enriched_cpv = check_cpv_codes(enriched)
-        if enriched_cpv.get('cpv_count', 0) > 0:
+        cpv_count = enriched_cpv.get('cpv_count', 0)
+        
+        # Always create CPV record if any codes found (including validated IT codes)
+        if cpv_count > 0:
             cpv_record = {
                 'resource_id': resource_id,
-                'cpv_count': enriched_cpv['cpv_count'],
-                'cpv_codes': enriched_cpv['cpv_code_list'],
-                'cpv_details': enriched_cpv['cpv_codes']
+                'cpv_count': cpv_count,
+                'cpv_codes': enriched_cpv.get('cpv_code_list', []),
+                'cpv_details': enriched_cpv.get('cpv_codes', []),
+                'has_validated_cpv': enriched_cpv.get('has_validated_cpv', False)
             }
+            validated_count = len([c for c in enriched_cpv.get('cpv_codes', []) if c.get('validated')])
+            logger.info(f"Found {cpv_count} CPV codes for tender {resource_id} ({validated_count} validated IT codes)")
+        else:
+            logger.debug(f"No CPV codes found for tender {resource_id}")
     
     return tender_record, pdf_record, cpv_record
 
@@ -75,7 +120,8 @@ def run_pipeline(start_page: int = 1,
                 process_pdfs: bool = True,
                 check_cpvs: bool = True,
                 delay: float = 1.0,
-                debug: bool = False) -> tuple[str, str, str, str]:
+                debug: bool = False,
+                enable_logging: bool = False) -> tuple[str, str, str, str]:
     """
     Run the full eTenders scraping and processing pipeline.
     Outputs to three separate files/tables: tenders, pdfs, and cpvs.
@@ -89,6 +135,7 @@ def run_pipeline(start_page: int = 1,
         check_cpvs: Whether to check CPV codes
         delay: Delay between page requests
         debug: Enable debug mode to save problematic Ollama responses
+        enable_logging: Enable logging to file and console
         
     Returns:
         Tuple of (timestamp, tenders_file, pdfs_file, cpvs_file)
@@ -127,6 +174,12 @@ def run_pipeline(start_page: int = 1,
             output.create_table()
     else:
         raise ValueError(f"Unknown output format: {output_format}")
+    
+    logger.info("="*80)
+    logger.info("eTenders Pipeline Starting")
+    logger.info("="*80)
+    logger.info(f"Pages: {start_page} to {end_page}")
+    logger.info(f"Output: {output_format}")
     
     print(f"\n{'='*60}")
     print(f"eTenders Pipeline Starting")
@@ -171,8 +224,17 @@ def run_pipeline(start_page: int = 1,
                 
                 # Write CPV record (if exists)
                 if cpv_record:
+                    cpv_count = cpv_record.get('cpv_count', 0)
+                    resource_id = tender_record.get('resource_id')
+                    logger.debug(f"Attempting to write CPV record for tender {resource_id} with {cpv_count} codes")
                     if cpvs_output.write_record(cpv_record):
                         cpvs_written += 1
+                        logger.info(f"✓ Wrote CPV record for tender {resource_id}: {cpv_count} codes")
+                    else:
+                        failed_records += 1
+                        logger.error(f"✗ Failed to write CPV record for tender {resource_id}")
+                else:
+                    logger.debug(f"No CPV record to write for tender {tender_record.get('resource_id')}")
                 
                 # Progress indicator
                 if total_records % 10 == 0:
@@ -181,7 +243,9 @@ def run_pipeline(start_page: int = 1,
                 
             except Exception as e:
                 failed_records += 1
-                print(f"✗ Error processing record {record.get('resource_id')}: {e}")
+                resource_id = record.get('resource_id', 'unknown')
+                logger.error(f"Error processing record {resource_id}: {e}", exc_info=True)
+                print(f"✗ Error processing record {resource_id}: {e}")
         
         # Flush all outputs
         tenders_output.flush()
@@ -196,6 +260,15 @@ def run_pipeline(start_page: int = 1,
             cpvs_output.close()
     
     # Print summary
+    logger.info("="*80)
+    logger.info("Pipeline Complete")
+    logger.info(f"Total records processed: {total_records}")
+    logger.info(f"Tenders written: {tenders_written}")
+    logger.info(f"PDFs written: {pdfs_written}")
+    logger.info(f"CPVs written: {cpvs_written}")
+    logger.info(f"Failed: {failed_records}")
+    logger.info("="*80)
+    
     print(f"\n{'='*60}")
     print(f"Pipeline Complete")
     print(f"{'='*60}")
@@ -240,8 +313,15 @@ if __name__ == "__main__":
                        help='Run AI bid analysis after scraping')
     parser.add_argument('--debug', action='store_true',
                        help='Enable debug mode - saves problematic Ollama responses to files')
+    parser.add_argument('--enable-logging', action='store_true',
+                       help='Enable logging to file and console (default: disabled)')
     
     args = parser.parse_args()
+    
+    # Setup logging based on flag
+    log_filename = setup_logging(args.enable_logging)
+    if log_filename:
+        print(f"Logging enabled: {log_filename}")
     
     timestamp, tenders_file, pdfs_file, cpvs_file = run_pipeline(
         start_page=args.start_page,
@@ -251,7 +331,8 @@ if __name__ == "__main__":
         process_pdfs=not args.no_pdfs,
         check_cpvs=not args.no_cpvs,
         debug=args.debug,
-        delay=args.delay
+        delay=args.delay,
+        enable_logging=args.enable_logging
     )
     
     # Run bid analysis if requested

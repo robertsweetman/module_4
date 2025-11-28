@@ -2,10 +2,13 @@
 AI Bid Analyzer - Uses Ollama to determine if IT consultancy should bid on tender
 """
 
+import logging
 import requests
 import json
 from typing import Dict, Any, List
 from datetime import datetime
+
+logger = logging.getLogger(__name__)
 
 
 def analyze_tender_for_bid(combined_record: Dict[str, Any], model: str = "llama3.2:3b") -> Dict[str, Any]:
@@ -24,6 +27,22 @@ def analyze_tender_for_bid(combined_record: Dict[str, Any], model: str = "llama3
     pdf = combined_record.get('pdf', {})
     cpv = combined_record.get('cpv', {})
     
+    resource_id = combined_record.get('resource_id', 'unknown')
+    
+    # Parse CPV codes if they're strings (from CSV)
+    cpv_codes = cpv.get('cpv_codes', []) if cpv else []
+    if isinstance(cpv_codes, str):
+        import ast
+        try:
+            cpv_codes = ast.literal_eval(cpv_codes)
+        except:
+            cpv_codes = []
+    
+    cpv_count = cpv.get('cpv_count', 0) if cpv else 0
+    has_validated = cpv.get('has_validated_cpv', False) if cpv else False
+    
+    logger.info(f"Analyzing tender {resource_id}: {cpv_count} CPV codes found, validated={has_validated}")
+    
     # Extract PDF content sections for detailed analysis
     pdf_content = pdf.get('pdf_content', {}) if pdf else {}
     pdf_sections = "\n".join([f"{heading}: {text[:500]}..." for heading, text in pdf_content.items()]) if pdf_content else "No PDF content available"
@@ -37,7 +56,9 @@ Contracting Authority: {tender.get('contracting_authority', 'N/A')}
 Estimated Value: {tender.get('estimated_value', 'N/A')}
 Info: {tender.get('info', 'N/A')}
 Main Classification: {pdf.get('main_classification', 'N/A') if pdf else 'N/A'}
-CPV Codes: {cpv.get('cpv_codes', []) if cpv else []}
+CPV Codes Found: {cpv_count}
+CPV Codes: {cpv_codes}
+Has Validated IT/Software CPV: {has_validated}
 
 FULL PDF CONTENT (organized by sections):
 {pdf_sections}
@@ -94,6 +115,7 @@ If truly IT-related and matches Version 1's capabilities, set should_bid to true
 """
     
     try:
+        logger.debug(f"Sending bid analysis request to Ollama for tender {resource_id}")
         response = requests.post(
             'http://localhost:11434/api/generate',
             json={
@@ -108,6 +130,7 @@ If truly IT-related and matches Version 1's capabilities, set should_bid to true
         
         result = response.json()
         response_text = result.get('response', '')
+        logger.debug(f"Received analysis response for tender {resource_id}")
         
         # Parse JSON response
         import re
@@ -121,9 +144,14 @@ If truly IT-related and matches Version 1's capabilities, set should_bid to true
         analysis['resource_id'] = combined_record.get('resource_id')
         analysis['analyzed_at'] = datetime.now().isoformat()
         
+        should_bid = analysis.get('should_bid', False)
+        confidence = analysis.get('confidence', 'unknown')
+        logger.info(f"Tender {resource_id} analysis: should_bid={should_bid}, confidence={confidence}")
+        
         return analysis
         
     except requests.exceptions.ConnectionError:
+        logger.error("Ollama connection failed - service not running")
         print("✗ Error: Ollama not running. Start it with: ollama serve")
         return {
             'resource_id': combined_record.get('resource_id'),
@@ -133,9 +161,10 @@ If truly IT-related and matches Version 1's capabilities, set should_bid to true
             'error': True
         }
     except Exception as e:
-        print(f"Error analyzing tender {combined_record.get('resource_id')}: {e}")
+        logger.error(f"Error analyzing tender {resource_id}: {e}", exc_info=True)
+        print(f"Error analyzing tender {resource_id}: {e}")
         return {
-            'resource_id': combined_record.get('resource_id'),
+            'resource_id': resource_id,
             'should_bid': False,
             'confidence': 'low',
             'reasoning': f'Analysis failed: {str(e)}',
@@ -171,6 +200,9 @@ def batch_analyze_tenders(combined_records: List[Dict[str, Any]],
     
     total = len(combined_records) if hasattr(combined_records, '__len__') else 0
     
+    logger.info("Starting batch bid analysis")
+    logger.info(f"Output files: outputs/json/bid_analysis_{timestamp}.json and CSV")
+    
     print(f"\nAnalyzing tenders for bid opportunities...")
     print("=" * 60)
     
@@ -205,6 +237,11 @@ def batch_analyze_tenders(combined_records: List[Dict[str, Any]],
         # Flush outputs
         json_output.flush()
         csv_output.flush()
+    
+    logger.info("="*80)
+    logger.info(f"Batch analysis complete: {bid_count}/{processed} tenders recommended for bidding")
+    logger.info(f"Results saved to outputs/json/bid_analysis_{timestamp}.json and CSV")
+    logger.info("="*80)
     
     print("=" * 60)
     print(f"\nRecommendations: {bid_count}/{processed} tenders worth bidding on")

@@ -2,6 +2,7 @@
 PostgreSQL output handler with error logging
 """
 
+import logging
 import psycopg2
 from psycopg2.extras import Json
 from typing import Dict, Any
@@ -9,6 +10,7 @@ from datetime import datetime
 import os
 from dotenv import load_dotenv
 
+logger = logging.getLogger(__name__)
 load_dotenv()
 
 
@@ -42,14 +44,18 @@ class PostgresOutput:
         """
         try:
             if not self.connection_string:
+                logger.error("No database connection string provided")
                 raise ValueError("No database connection string provided")
-                
+            
+            logger.info(f"Connecting to PostgreSQL database for table: {self.table_name}")
             self.conn = psycopg2.connect(self.connection_string)
             self.cursor = self.conn.cursor()
+            logger.info(f"Successfully connected to PostgreSQL database")
             print(f"✓ Connected to PostgreSQL database")
             return True
             
         except Exception as e:
+            logger.error(f"Database connection failed: {e}", exc_info=True)
             print(f"✗ Database connection failed: {e}")
             self._log_error({'action': 'connect'}, str(e))
             return False
@@ -90,11 +96,20 @@ class PostgresOutput:
             
             self.cursor.execute(query, record_json)
             self.records_written += 1
+            logger.debug(f"Wrote record to {self.table_name}: {record.get('resource_id')}")
             
             return True
             
+        except psycopg2.IntegrityError as e:
+            self.error_count += 1
+            logger.warning(f"Duplicate record in {self.table_name}: {record.get('resource_id')}")
+            self._log_error(record, str(e))
+            if self.conn:
+                self.conn.rollback()
+            return False
         except Exception as e:
             self.error_count += 1
+            logger.error(f"Error writing record to {self.table_name}: {e}", exc_info=True)
             self._log_error(record, str(e))
             # Rollback the failed transaction
             if self.conn:
@@ -106,8 +121,10 @@ class PostgresOutput:
         if self.conn:
             try:
                 self.conn.commit()
+                logger.info(f"Committed {self.records_written} records to {self.table_name}")
                 print(f"✓ Committed {self.records_written} records to {self.table_name}")
             except Exception as e:
+                logger.error(f"Error committing to database: {e}", exc_info=True)
                 print(f"✗ Error committing to database: {e}")
                 self._log_error({'action': 'flush'}, str(e))
                 self.conn.rollback()
@@ -118,6 +135,7 @@ class PostgresOutput:
             self.cursor.close()
         if self.conn:
             self.conn.close()
+        logger.info(f"Database connection closed for {self.table_name}")
         print(f"✓ Database connection closed")
     
     def _log_error(self, record: Dict[str, Any], error: str) -> None:
@@ -224,12 +242,15 @@ class PostgresOutput:
             else:
                 raise ValueError(f"Unknown table name: {self.table_name}")
             
+            logger.info(f"Creating/verifying table: {self.table_name}")
             self.cursor.execute(create_table_sql)
             self.conn.commit()
+            logger.info(f"Table {self.table_name} is ready")
             print(f"✓ Table {self.table_name} ready")
             return True
             
         except Exception as e:
+            logger.error(f"Error creating table {self.table_name}: {e}", exc_info=True)
             print(f"✗ Error creating table: {e}")
             self._log_error({'action': 'create_table'}, str(e))
             return False

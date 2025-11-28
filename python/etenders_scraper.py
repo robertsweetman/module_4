@@ -4,11 +4,14 @@ Scrapes tender data from the eTenders website
 Yields individual records for pipeline processing
 """
 
+import logging
 import requests
 from bs4 import BeautifulSoup
 import time
 from typing import Generator, Dict
 import re
+
+logger = logging.getLogger(__name__)
 
 
 def scrape_etenders_page(page_number: int) -> Generator[Dict[str, str], None, None]:
@@ -24,6 +27,7 @@ def scrape_etenders_page(page_number: int) -> Generator[Dict[str, str], None, No
     """
     url = f"https://www.etenders.gov.ie/epps/quickSearchAction.do?d-3680175-p={page_number}&searchType=cftFTS&latest=true"
     
+    logger.info(f"Scraping page {page_number} from eTenders.gov.ie")
     print(f"Scraping page {page_number}...")
     
     try:
@@ -32,8 +36,10 @@ def scrape_etenders_page(page_number: int) -> Generator[Dict[str, str], None, No
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
         
+        logger.debug(f"Fetching URL: {url}")
         response = requests.get(url, headers=headers, timeout=30)
         response.raise_for_status()
+        logger.debug(f"Response received: {len(response.content)} bytes")
         
         soup = BeautifulSoup(response.content, 'html.parser')
         
@@ -41,12 +47,15 @@ def scrape_etenders_page(page_number: int) -> Generator[Dict[str, str], None, No
         table = soup.find('table', {'id': 'T01'})
         
         if not table:
+            logger.warning(f"No table found on page {page_number}")
             print(f"Warning: No table found on page {page_number}")
             return
         
         # Find all table rows (skip header row)
         rows = table.find_all('tr')
+        logger.debug(f"Found {len(rows)-1} tender rows on page {page_number}")
         
+        record_count = 0
         for row in rows[1:]:  # Skip header row
             cols = row.find_all('td')
             
@@ -104,14 +113,19 @@ def scrape_etenders_page(page_number: int) -> Generator[Dict[str, str], None, No
             if len(cols) > 12:
                 tender_data['cycle'] = cols[12].get_text(strip=True)
             
+            record_count += 1
+            logger.debug(f"Yielding tender record: {tender_data.get('resource_id')}")
             yield tender_data
         
+        logger.info(f"Processed page {page_number}: {record_count} records")
         print(f"Processed page {page_number}")
         
     except requests.RequestException as e:
+        logger.error(f"Network error scraping page {page_number}: {e}")
         print(f"Error scraping page {page_number}: {e}")
         return
     except Exception as e:
+        logger.error(f"Unexpected error on page {page_number}: {e}", exc_info=True)
         print(f"Unexpected error on page {page_number}: {e}")
         return
 
