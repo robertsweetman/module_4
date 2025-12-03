@@ -8,5 +8,6 @@ venv/
 .env
 
 # Output directories and files
-outputs/json/
-*_errors.log
+python/outputs/json/
+python/etenders_*.log
+python/pdf_*.log

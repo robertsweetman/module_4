@@ -2,7 +2,7 @@
 
 <!-- Understand the specific business problem to be addressed -->
 
-We want to build a data product that becomes an invaluable bid preparation, analysis and feedback tool. Something that allows non-technical users to ask questions about the tenders coming out of the Irish Govt, identify tenders that we maybe should of bid for that didn't and ultimately provides a positive feedback loop that drives further commercial successes.
+We want to build a data product that becomes an invaluable bid preparation, analysis and feedback tool. Something that allows non-technical users to ask questions about the tenders coming out of the Irish Govt, identify tenders that we maybe should of bid for that didn't and ultimately provides a sales feedback loop that drives further commercial successes.
 
 ## ETL
 
@@ -42,7 +42,6 @@ There are effectively 4 data sources when it comes to updating the database so t
 - tender_id is the foreign key (FK)
 - PDF URL
 - raw text
--
 
 ## Bid Submissions** - Internal Sales process tracking
 

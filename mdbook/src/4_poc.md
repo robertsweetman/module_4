@@ -16,11 +16,31 @@ Following software development best practice around separation of concerns we ca
 2. Parse it into the correct type
 3. Retreive the PDF content
 4. Parse the PDF content using a local LLM
-5. Output the content, store or send it 'somewhere'
+5. Output the content, store or send it 'somewhere' - options are csv, json or postgres
 
 If we don't know "where" to send the data at this point we could have multiple functions to do step 5 and just vary the "write" parts at the end of steps 2 and 4.
 
-TODO: have a diagram of this
+```mermaid
+flowchart TD
+    A[eTenders Website] -->|Scrape Data| B[Raw Data]
+    B -->|Parse & Type Coercion| C[Structured Data]
+    C -->|Extract PDF URLs| D[Download PDFs]
+    D -->|Parse PDF Content| E[Local LLM Processing]
+    E -->|Structured Output| F{Output Destination}
+    
+    F -->|Option 1| G[CSV Files]
+    F -->|Option 2| H[JSON Files]
+    F -->|Option 3| I[(PostgreSQL Database)]
+    
+    J[Sales Team] -->|Progress Updates| I
+    K[Irish Government Emails] -->|Tender Status<br/>Won/Lost/Awarded| I
+    
+    style A fill:#e1f5ff
+    style E fill:#ffe1f5
+    style I fill:#e1ffe1
+    style J fill:#fff4e1
+    style K fill:#fff4e1
+```
 
 <!--
 Design, implement and debug a data product
