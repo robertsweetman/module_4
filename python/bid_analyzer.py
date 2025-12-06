@@ -11,7 +11,7 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 
 
-def analyze_tender_for_bid(combined_record: Dict[str, Any], model: str = "llama3.2:3b") -> Dict[str, Any]:
+def analyze_tender_for_bid(combined_record: Dict[str, Any], model: str = "llama3.1:8b") -> Dict[str, Any]:
     """
     Analyze a combined tender record to determine if IT consultancy should bid.
     
@@ -45,10 +45,24 @@ def analyze_tender_for_bid(combined_record: Dict[str, Any], model: str = "llama3
     
     # Extract PDF content sections for detailed analysis
     pdf_content = pdf.get('pdf_content', {}) if pdf else {}
-    pdf_sections = "\n".join([f"{heading}: {text[:500]}..." for heading, text in pdf_content.items()]) if pdf_content else "No PDF content available"
+    
+    # Handle both dict and JSON string formats
+    if isinstance(pdf_content, str):
+        import json
+        try:
+            pdf_content = json.loads(pdf_content) if pdf_content else {}
+        except (json.JSONDecodeError, ValueError):
+            pdf_content = {}
+    
+    # Include FULL PDF content, not truncated
+    pdf_sections = "\n".join([
+        f"{heading}: {str(text)}" 
+        for heading, text in pdf_content.items() 
+        if text and str(text).strip()
+    ]) if pdf_content else "No PDF content available"
     
     context = f"""
-You are a bid qualification analyst for Version 1, a technology consultancy company.
+You are a bid qualification analyst for Version 1, a technology consultancy company specializing in enterprise software, cloud services, data platforms, and IT modernization.
 
 TENDER DETAILS:
 Title: {tender.get('title', 'N/A')}
@@ -60,58 +74,60 @@ CPV Codes Found: {cpv_count}
 CPV Codes: {cpv_codes}
 Has Validated IT/Software CPV: {has_validated}
 
-FULL PDF CONTENT (organized by sections):
+FULL PDF CONTENT (all sections):
 {pdf_sections}
 
-STRICT IT-RELATED REQUIREMENTS - Must match at least ONE:
-1. Software/Application Development or Modernisation
-2. Cloud Infrastructure, Migration, or Services (AWS, Azure, Oracle Cloud)
-3. Data Platforms, Analytics, Business Intelligence, or AI/ML
-4. Enterprise Software (Oracle, SAP, Microsoft Dynamics, Salesforce)
-5. IT Infrastructure, Networking, or Cybersecurity Services
-6. Digital Services, Web/Mobile Applications, or Portals
-7. IT Consulting, Architecture, or Strategy
-8. Managed IT Services or Support
-9. Software License Management or FinOps
-10. Contains a CPV code from the known IT/software CPV list
+TENDER SHOULD BE RECOMMENDED (should_bid=true) IF IT INCLUDES ANY OF:
+✓ Software development, customization, or modernization
+✓ Cloud infrastructure, migration, or managed services (AWS, Azure, GCP, Oracle Cloud)
+✓ Data platforms, analytics, business intelligence, AI/ML, or data science
+✓ Enterprise software implementation (Oracle, SAP, Microsoft Dynamics, Salesforce, etc.)
+✓ IT infrastructure design, networking, or cybersecurity
+✓ Digital transformation, web/mobile applications, portals, or digital services
+✓ IT consulting, architecture, strategy, or advisory services
+✓ Managed IT services, application support, or DevOps
+✓ Software license management, FinOps, or IT governance
+✓ IT hardware procurement WITH significant software/services component
+✓ System integration, API development, or middleware
+✓ Database design, administration, or optimization
 
-IMMEDIATE DISQUALIFICATION - Automatically reject if ANY apply:
-❌ Physical goods ONLY (furniture, equipment, vehicles, supplies, trees, ice machines)
-❌ Construction, facilities, or building works
-❌ Catering, food services, or meals
-❌ Cleaning, maintenance, or janitorial services  
-❌ Medical equipment or healthcare supplies
-❌ Educational materials, toys, or books (unless digital/software)
+TENDER CAN BE REJECTED (should_bid=false) IF IT IS CLEARLY:
+❌ Pure physical goods with NO IT services (furniture, office supplies, vehicles, catering equipment)
+❌ Construction or building works with NO IT/digital component
+❌ Food, catering, or hospitality services
+❌ Cleaning or janitorial services
+❌ Pure medical supplies or pharmaceuticals (not healthcare IT systems)
 ❌ Agricultural products or farming equipment
-❌ Transportation or logistics services
-❌ Paper printing or publishing services
-❌ Legal, HR, or recruitment services (unless for IT roles)
-❌ Marketing, PR, or creative services (unless digital platform development)
-❌ Generic consultancy with no IT/technology component
+❌ Transportation or logistics operations (not logistics software)
+❌ Printing or publishing (not digital publishing platforms)
+❌ HR/recruitment for non-IT roles
+❌ Generic management consulting with NO technology component
+
+IMPORTANT CONSIDERATIONS:
+- IT hardware tenders are ACCEPTABLE if they include implementation, integration, or support services
+- Tenders mentioning "software", "cloud", "data", "digital", "systems", "IT", or "technology" should be considered carefully
+- Mixed tenders (hardware + software + services) are GOOD candidates
+- If a tender has validated IT CPV codes, strongly consider recommending it
+- When in doubt about IT relevance, err on the side of recommendation (we can filter later)
 
 DECISION PROCESS:
-Step 1: Read the tender title carefully - does it mention software, IT, technology, cloud, data, digital, or systems?
-Step 2: Check if it's purely physical goods or non-IT services - if yes, REJECT immediately
-Step 3: Look for IT keywords: application, platform, infrastructure, database, API, integration, modernisation
-Step 4: If unsure, default to REJECT unless clear IT/technology evidence exists
-
-Version 1 is a TECHNOLOGY company. We do NOT bid on:
-- Furniture, fixtures, or physical fit-outs
-- Food or catering services
-- Building or construction work
-- Physical product procurement
-- Non-technology professional services
+1. Check title and main classification for IT/technology keywords
+2. Review full PDF content for technical requirements, software mentions, IT services
+3. Consider validated CPV codes - if true, this is strong evidence for recommendation
+4. Assess if Version 1's capabilities (software, cloud, data, IT consulting) match the tender
+5. If there's ANY significant IT component, recommend the bid
 
 Return ONLY valid JSON:
 {{
-  "should_bid": false,
-  "confidence": "high",
-  "reasoning": "Specific reason - if rejecting non-IT, state clearly what physical/non-IT service it is",
-  "relevant_factors": ["Primary reason for decision"],
-  "estimated_fit": "0"
+  "should_bid": true/false,
+  "confidence": "high/medium/low",
+  "reasoning": "Clear explanation of why this tender is/isn't a good fit for Version 1",
+  "relevant_factors": ["Key factors that influenced the decision"],
+  "estimated_fit": "0-100 (how well this matches Version 1's capabilities)"
 }}
 
-If truly IT-related and matches Version 1's capabilities, set should_bid to true with fit score 60-100.
+For IT-related tenders, set estimated_fit to 60-100 based on alignment with Version 1's expertise.
+For non-IT tenders, set estimated_fit to 0-30.
 """
     
     try:
@@ -140,12 +156,32 @@ If truly IT-related and matches Version 1's capabilities, set should_bid to true
         
         analysis = json.loads(json_text)
         
+        # Convert string values to numeric for database compatibility
+        # confidence: "high" -> 0.90, "medium" -> 0.60, "low" -> 0.30
+        confidence_str = str(analysis.get('confidence', 'low')).lower()
+        if confidence_str == 'high':
+            analysis['confidence'] = 0.90
+        elif confidence_str == 'medium':
+            analysis['confidence'] = 0.60
+        else:
+            analysis['confidence'] = 0.30
+        
+        # estimated_fit: string number to float (0-100 scale, convert to 0-1 scale)
+        try:
+            fit_value = float(str(analysis.get('estimated_fit', '0')))
+            # If value is > 1, assume it's on 0-100 scale, convert to 0-1
+            if fit_value > 1:
+                fit_value = fit_value / 100.0
+            analysis['estimated_fit'] = min(max(fit_value, 0.0), 1.0)  # Clamp to 0-1
+        except (ValueError, TypeError):
+            analysis['estimated_fit'] = 0.0
+        
         # Add metadata
         analysis['resource_id'] = combined_record.get('resource_id')
         analysis['analyzed_at'] = datetime.now().isoformat()
         
         should_bid = analysis.get('should_bid', False)
-        confidence = analysis.get('confidence', 'unknown')
+        confidence = analysis.get('confidence')
         logger.info(f"Tender {resource_id} analysis: should_bid={should_bid}, confidence={confidence}")
         
         return analysis
@@ -156,13 +192,22 @@ If truly IT-related and matches Version 1's capabilities, set should_bid to true
         return {
             'resource_id': combined_record.get('resource_id'),
             'should_bid': False,
-            'confidence': 'low',
+            'confidence': 0.30,
             'reasoning': 'Analysis failed - Ollama not running',
+            'estimated_fit': 0.0,
             'error': True
         }
     except Exception as e:
         logger.error(f"Error analyzing tender {resource_id}: {e}", exc_info=True)
         print(f"Error analyzing tender {resource_id}: {e}")
+        return {
+            'resource_id': combined_record.get('resource_id'),
+            'should_bid': False,
+            'confidence': 0.30,
+            'reasoning': f'Analysis failed: {str(e)}',
+            'estimated_fit': 0.0,
+            'error': True
+        }
         return {
             'resource_id': resource_id,
             'should_bid': False,
@@ -173,7 +218,7 @@ If truly IT-related and matches Version 1's capabilities, set should_bid to true
 
 
 def batch_analyze_tenders(combined_records: List[Dict[str, Any]], 
-                          model: str = "llama3.2:3b",
+                          model: str = "llama3.1:8b",
                           output_file: str = None) -> None:
     """
     Analyze multiple tenders for bid recommendations.

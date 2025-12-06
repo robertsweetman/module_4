@@ -25,6 +25,12 @@ foreach ($file in $files)
     # Remove mermaid code blocks (```mermaid ... ```)
     $contentWithoutComments = $contentWithoutComments -replace '```mermaid[\s\S]*?```', ''
 
+    # Remove log blocks (```log ... ```)
+    $contentWithoutComments = $contentWithoutComments -replace '```log[\s\S]*?```', ''
+
+    # Remove python code blocks (```python ... ```)
+    $contentWithoutComments = $contentWithoutComments -replace '```python[\s\S]*?```', ''
+
     # Count words after removing comments
     $wordCount = ($contentWithoutComments | Measure-Object -Word).Words
 

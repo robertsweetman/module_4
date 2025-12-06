@@ -79,11 +79,16 @@ def process_record(record: Dict[str, Any],
         logger.debug(f"Processing PDF for tender {resource_id}")
         enriched = enrich_record_with_pdf(tender_record, debug=debug)
         if enriched.get('pdf_parsed') and enriched.get('pdf_data'):
+            import json
+            pdf_data = enriched['pdf_data']
+            # Convert pdf_content dict to JSON string
+            pdf_content_str = json.dumps(pdf_data.get('pdf_content', {})) if isinstance(pdf_data.get('pdf_content'), dict) else str(pdf_data.get('pdf_content', ''))
+            
             pdf_record = {
                 'resource_id': resource_id,
                 'pdf_url': tender_record.get('notice_pdf_url'),
                 'pdf_parsed': True,
-                **enriched['pdf_data']  # Unpack PDF data fields
+                'pdf_content': pdf_content_str
             }
             logger.info(f"Successfully parsed PDF for tender {resource_id}")
         else:
@@ -121,175 +126,164 @@ def run_pipeline(start_page: int = 1,
                 check_cpvs: bool = True,
                 delay: float = 1.0,
                 debug: bool = False,
-                enable_logging: bool = False) -> tuple[str, str, str, str]:
+                enable_logging: bool = False,
+                analyze_bids: bool = False) -> tuple[str, str, str, str]:
     """
-    Run the full eTenders scraping and processing pipeline.
-    Outputs to three separate files/tables: tenders, pdfs, and cpvs.
+    Run the complete eTenders scraping and processing pipeline
     
     Args:
         start_page: First page to scrape
         end_page: Last page to scrape
         output_format: Output format ('json', 'csv', or 'postgres')
-        output_file: Output file prefix (not used for postgres)
-        process_pdfs: Whether to process PDFs
+        output_file: Base filename for output (auto-generated if None)
+        process_pdfs: Whether to download and parse PDFs
         check_cpvs: Whether to check CPV codes
-        delay: Delay between page requests
-        debug: Enable debug mode to save problematic Ollama responses
+        delay: Delay between requests in seconds
+        debug: Enable debug mode for LLM responses
         enable_logging: Enable logging to file and console
         
     Returns:
-        Tuple of (timestamp, tenders_file, pdfs_file, cpvs_file)
+        Tuple of (timestamp, tenders_output, pdfs_output, cpvs_output)
     """
-    import os
+    # Setup logging
+    log_file = setup_logging(enable_logging)
+    if log_file:
+        logger.info(f"Logging enabled to: {log_file}")
+        print(f"Logging enabled: {log_file}")
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     
-    # Create output directories
-    if output_format == 'json':
-        os.makedirs('outputs/json', exist_ok=True)
-        output_dir = 'outputs/json'
+    # Initialize output handlers based on format
+    if output_format == 'postgres':
+        # PostgresOutput doesn't need table_name parameter
+        output_handler = PostgresOutput()
+        logger.info("Using PostgreSQL output")
     elif output_format == 'csv':
-        os.makedirs('outputs/csv', exist_ok=True)
-        output_dir = 'outputs/csv'
+        output_handler = CSVOutput(timestamp=timestamp, base_filename=output_file)
+        logger.info(f"Using CSV output with timestamp: {timestamp}")
+    else:  # json
+        output_handler = JSONOutput(timestamp=timestamp, base_filename=output_file)
+        logger.info(f"Using JSON output with timestamp: {timestamp}")
     
-    # Initialize three output handlers for each table
-    if output_format == 'json':
-        tenders_output = JSONOutput(f'{output_dir}/tenders_{timestamp}.json')
-        pdfs_output = JSONOutput(f'{output_dir}/pdfs_{timestamp}.json')
-        cpvs_output = JSONOutput(f'{output_dir}/cpvs_{timestamp}.json')
-    elif output_format == 'csv':
-        tenders_output = CSVOutput(f'{output_dir}/tenders_{timestamp}.csv')
-        pdfs_output = CSVOutput(f'{output_dir}/pdfs_{timestamp}.csv')
-        cpvs_output = CSVOutput(f'{output_dir}/cpvs_{timestamp}.csv')
-    elif output_format == 'postgres':
-        tenders_output = PostgresOutput(table_name='tenders')
-        pdfs_output = PostgresOutput(table_name='pdfs')
-        cpvs_output = PostgresOutput(table_name='cpvs')
+    # Collect records
+    tender_records = []
+    pdf_records = []
+    cpv_records = []
+    bid_records = []
+    
+    # Batch size for incremental writes (write every N records)
+    BATCH_SIZE = 10
+    total_written = {'tenders': 0, 'pdfs': 0, 'cpvs': 0, 'bids': 0}
+    
+    # Import bid analyzer if needed
+    if analyze_bids and output_format == 'postgres':
+        from bid_analyzer import analyze_tender_for_bid
+    
+    logger.info(f"Starting scraping from page {start_page} to {end_page}")
+    print(f"\nScraping eTenders pages {start_page} to {end_page}...")
+    
+    # Scrape and process records
+    for i, record in enumerate(scrape_pages(start_page=start_page, end_page=end_page, delay=delay), start=1):
+        # Process each record
+        tender_data, pdf_data, cpv_data = process_record(
+            record, 
+            process_pdfs=process_pdfs,
+            check_cpvs=check_cpvs,
+            debug=debug
+        )
         
-        # Connect and create tables
-        for output in [tenders_output, pdfs_output, cpvs_output]:
-            if not output.connect():
-                print(f"✗ Failed to connect to database for {output.table_name}. Aborting.")
-                return
-            output.create_table()
-    else:
-        raise ValueError(f"Unknown output format: {output_format}")
-    
-    logger.info("="*80)
-    logger.info("eTenders Pipeline Starting")
-    logger.info("="*80)
-    logger.info(f"Pages: {start_page} to {end_page}")
-    logger.info(f"Output: {output_format}")
-    
-    print(f"\n{'='*60}")
-    print(f"eTenders Pipeline Starting")
-    print(f"{'='*60}")
-    print(f"Pages: {start_page} to {end_page}")
-    print(f"Output: {output_format}")
-    if output_format != 'postgres':
-        print(f"  - Tenders: {output_dir}/tenders_{timestamp}.{output_format}")
-        print(f"  - PDFs: {output_dir}/pdfs_{timestamp}.{output_format}")
-        print(f"  - CPVs: {output_dir}/cpvs_{timestamp}.{output_format}")
-    else:
-        print(f"  - Database tables: tenders, pdfs, cpvs")
-    print(f"Process PDFs: {process_pdfs}")
-    print(f"Check CPVs: {check_cpvs}")
-    print(f"{'='*60}\n")
-    
-    total_records = 0
-    tenders_written = 0
-    pdfs_written = 0
-    cpvs_written = 0
-    failed_records = 0
-    
-    try:
-        # Process records from scraper
-        for record in scrape_pages(start_page, end_page, delay):
-            total_records += 1
+        tender_records.append(tender_data)
+        
+        if pdf_data:
+            pdf_records.append(pdf_data)
+        
+        if cpv_data:
+            cpv_records.append(cpv_data)
+        
+        # Analyze bid immediately if enabled (before batching)
+        if analyze_bids and output_format == 'postgres' and pdf_data:
+            # Structure data to match bid_analyzer's expected format
+            analysis_data = {
+                'resource_id': tender_data.get('resource_id'),
+                'tender': tender_data,
+                'pdf': pdf_data,
+                'cpv': cpv_data if cpv_data else {}
+            }
+            bid_analysis = analyze_tender_for_bid(analysis_data)
+            if bid_analysis:
+                bid_analysis['resource_id'] = tender_data.get('resource_id')
+                bid_records.append(bid_analysis)
+                logger.info(f"Analyzed bid for {tender_data.get('resource_id')}")
+        
+        # Write in batches for postgres output
+        if output_format == 'postgres' and i % BATCH_SIZE == 0:
+            logger.info(f"Writing batch of {len(tender_records)} records to database...")
+            result = output_handler.write_records(
+                tender_records=tender_records,
+                pdf_records=pdf_records,
+                cpv_records=cpv_records,
+                bid_records=bid_records  # Write bid analyses in same batch
+            )
+            batch_tenders, batch_pdfs, batch_cpvs, batch_bids = result
+            total_written['tenders'] += batch_tenders
+            total_written['pdfs'] += batch_pdfs
+            total_written['cpvs'] += batch_cpvs
+            total_written['bids'] += batch_bids
             
-            try:
-                # Process through pipeline - returns 3 records
-                tender_record, pdf_record, cpv_record = process_record(record, process_pdfs, check_cpvs, debug)
-                
-                # Write tender record (always)
-                if tenders_output.write_record(tender_record):
-                    tenders_written += 1
-                else:
-                    failed_records += 1
-                
-                # Write PDF record (if exists)
-                if pdf_record:
-                    if pdfs_output.write_record(pdf_record):
-                        pdfs_written += 1
-                
-                # Write CPV record (if exists)
-                if cpv_record:
-                    cpv_count = cpv_record.get('cpv_count', 0)
-                    resource_id = tender_record.get('resource_id')
-                    logger.debug(f"Attempting to write CPV record for tender {resource_id} with {cpv_count} codes")
-                    if cpvs_output.write_record(cpv_record):
-                        cpvs_written += 1
-                        logger.info(f"✓ Wrote CPV record for tender {resource_id}: {cpv_count} codes")
-                    else:
-                        failed_records += 1
-                        logger.error(f"✗ Failed to write CPV record for tender {resource_id}")
-                else:
-                    logger.debug(f"No CPV record to write for tender {tender_record.get('resource_id')}")
-                
-                # Progress indicator
-                if total_records % 10 == 0:
-                    print(f"Processed {total_records} records... "
-                          f"(Tenders: {tenders_written} | PDFs: {pdfs_written} | CPVs: {cpvs_written})")
-                
-            except Exception as e:
-                failed_records += 1
-                resource_id = record.get('resource_id', 'unknown')
-                logger.error(f"Error processing record {resource_id}: {e}", exc_info=True)
-                print(f"✗ Error processing record {resource_id}: {e}")
+            print(f"✓ Wrote batch: {batch_tenders} tenders, {batch_pdfs} PDFs, {batch_cpvs} CPVs, {batch_bids} bid analyses (total: {total_written['tenders']} tenders)")
+            
+            # Clear batch
+            tender_records = []
+            pdf_records = []
+            cpv_records = []
+            bid_records = []
+    
+    # Write any remaining records
+    if output_format == 'postgres' and tender_records:
+        logger.info(f"Writing final batch of {len(tender_records)} records...")
+        result = output_handler.write_records(
+            tender_records=tender_records,
+            pdf_records=pdf_records,
+            cpv_records=cpv_records,
+            bid_records=bid_records
+        )
+        batch_tenders, batch_pdfs, batch_cpvs, batch_bids = result
+        total_written['tenders'] += batch_tenders
+        total_written['pdfs'] += batch_pdfs
+        total_written['cpvs'] += batch_cpvs
+        total_written['bids'] += batch_bids
+        print(f"✓ Wrote final batch: {batch_tenders} tenders, {batch_pdfs} PDFs, {batch_cpvs} CPVs, {batch_bids} bid analyses")
+    
+    logger.info(f"Scraped {total_written.get('tenders', len(tender_records))} tender records")
+    print(f"\n✓ Total scraped: {total_written.get('tenders', len(tender_records))} tenders")
+    if analyze_bids and output_format == 'postgres':
+        print(f"✓ Total analyzed: {total_written.get('bids', 0)} bids")
+    
+    # Final summary
+    if output_format == 'postgres':
+        output_handler.close()
         
-        # Flush all outputs
-        tenders_output.flush()
-        pdfs_output.flush()
-        cpvs_output.flush()
+        logger.info(f"PostgreSQL write complete: {total_written['tenders']} tenders, {total_written['pdfs']} PDFs, {total_written['cpvs']} CPVs")
+        print(f"\n✓ Database Summary:")
+        print(f"  - {total_written['tenders']} tenders")
+        print(f"  - {total_written['pdfs']} PDFs")
+        print(f"  - {total_written['cpvs']} CPV records")
         
-    finally:
-        # Close connections for postgres
-        if output_format == 'postgres':
-            tenders_output.close()
-            pdfs_output.close()
-            cpvs_output.close()
+        return timestamp, total_written['tenders'], total_written['pdfs'], total_written['cpvs']
     
-    # Print summary
-    logger.info("="*80)
-    logger.info("Pipeline Complete")
-    logger.info(f"Total records processed: {total_records}")
-    logger.info(f"Tenders written: {tenders_written}")
-    logger.info(f"PDFs written: {pdfs_written}")
-    logger.info(f"CPVs written: {cpvs_written}")
-    logger.info(f"Failed: {failed_records}")
-    logger.info("="*80)
-    
-    print(f"\n{'='*60}")
-    print(f"Pipeline Complete")
-    print(f"{'='*60}")
-    print(f"Total records processed: {total_records}")
-    print(f"Tenders written: {tenders_written}")
-    print(f"PDFs written: {pdfs_written}")
-    print(f"CPVs written: {cpvs_written}")
-    print(f"Failed: {failed_records}")
-    print(f"\nOutput Stats:")
-    print(f"  Tenders: {tenders_output.get_stats()}")
-    print(f"  PDFs: {pdfs_output.get_stats()}")
-    print(f"  CPVs: {cpvs_output.get_stats()}")
-    print(f"{'='*60}\n")
-    
-    # Return file paths for potential bid analysis
-    if output_format == 'json':
-        return timestamp, f'outputs/json/tenders_{timestamp}.json', f'outputs/json/pdfs_{timestamp}.json', f'outputs/json/cpvs_{timestamp}.json'
-    elif output_format == 'csv':
-        return timestamp, f'outputs/csv/tenders_{timestamp}.csv', f'outputs/csv/pdfs_{timestamp}.csv', f'outputs/csv/cpvs_{timestamp}.csv'
     else:
-        return timestamp, 'tenders', 'pdfs', 'cpvs'
+        # CSV or JSON output - write all at once at the end
+        tenders_file = output_handler.write_tenders(tender_records)
+        pdfs_file = output_handler.write_pdfs(pdf_records)
+        cpvs_file = output_handler.write_cpvs(cpv_records)
+        
+        logger.info(f"Files written: {tenders_file}, {pdfs_file}, {cpvs_file}")
+        print(f"\n✓ Output files created:")
+        print(f"  - {tenders_file}")
+        print(f"  - {pdfs_file}")
+        print(f"  - {cpvs_file}")
+        
+        return timestamp, tenders_file, pdfs_file, cpvs_file
 
 
 if __name__ == "__main__":
@@ -332,38 +326,9 @@ if __name__ == "__main__":
         check_cpvs=not args.no_cpvs,
         debug=args.debug,
         delay=args.delay,
-        enable_logging=args.enable_logging
+        enable_logging=args.enable_logging,
+        analyze_bids=args.analyze_bids
     )
     
-    # Run bid analysis if requested
-    if args.analyze_bids:
-        print("\n" + "="*60)
-        print("Running AI Bid Analysis...")
-        print("="*60 + "\n")
-        
-        from data_combiner import combine_data
-        from bid_analyzer import batch_analyze_tenders, save_bid_analysis
-        
-        # Combine data from the files we just created
-        if args.output == 'csv':
-            combined = combine_data(
-                'csv',
-                tenders_file=tenders_file,
-                pdfs_file=pdfs_file,
-                cpvs_file=cpvs_file
-            )
-        elif args.output == 'json':
-            combined = combine_data(
-                'json',
-                tenders_file=tenders_file,
-                pdfs_file=pdfs_file,
-                cpvs_file=cpvs_file
-            )
-        else:
-            import os
-            combined = combine_data('postgres', connection_string=os.environ.get('DATABASE_URL'))
-        
-        # Analyze tenders
-        analyses = batch_analyze_tenders(combined)
-        
-        # Note: Results are already saved by batch_analyze_tenders (streaming mode)
+    # Note: Bid analysis now runs inline during scraping when --analyze-bids is set
+    # No post-processing needed as results are written to database in real-time

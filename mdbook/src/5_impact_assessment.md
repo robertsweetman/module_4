@@ -15,7 +15,7 @@ How/what tools can be used for Fabrik here (REF: to microsoft docs)
 
 NOTE: FOCUS MOST OF THE CONTENT OF THIS SECTION HERE!!
 
-How do you visualize this properly? visualisations!!
+TODO: How do you visualize this properly? visualisations!!
 
 ## Implementation and Rollout Plan
 

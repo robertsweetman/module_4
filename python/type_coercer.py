@@ -32,6 +32,14 @@ def coerce_types(record: Dict[str, Any]) -> Dict[str, Any]:
     coerced['submission_deadline_parsed'] = parse_date(coerced.get('submission_deadline', ''))
     coerced['award_date_parsed'] = parse_date(coerced.get('award_date', ''))
     
+    # Clean up original date fields - set empty strings to None for SQL compatibility
+    if not coerced.get('date_published'):
+        coerced['date_published'] = None
+    if not coerced.get('submission_deadline'):
+        coerced['submission_deadline'] = None
+    if not coerced.get('award_date'):
+        coerced['award_date'] = None
+    
     # Convert estimated_value to float
     try:
         value_str = coerced.get('estimated_value', '')
@@ -53,6 +61,10 @@ def coerce_types(record: Dict[str, Any]) -> Dict[str, Any]:
     except (ValueError, TypeError):
         coerced['cycle_numeric'] = None
     
+    # Clean up estimated_value - set empty string to None
+    if not coerced.get('estimated_value'):
+        coerced['estimated_value'] = None
+    
     # Add validation flags
     coerced['has_pdf_url'] = bool(coerced.get('notice_pdf_url'))
     coerced['has_estimated_value'] = coerced['estimated_value_numeric'] is not None
@@ -69,10 +81,10 @@ def parse_date(date_str: str) -> str:
         date_str: Date string from eTenders (e.g., "Mon Nov 17 16:51:52 GMT 2025")
         
     Returns:
-        ISO formatted date string or empty string if parsing fails
+        ISO formatted date string or None if parsing fails (for SQL NULL)
     """
     if not date_str:
-        return ''
+        return None
     
     try:
         # Try parsing the eTenders format
@@ -91,11 +103,11 @@ def parse_date(date_str: str) -> str:
             except ValueError:
                 continue
         
-        # If no format matched, return original
-        return date_str
+        # If no format matched, return None for SQL NULL
+        return None
         
     except Exception:
-        return date_str
+        return None
 
 
 if __name__ == "__main__":

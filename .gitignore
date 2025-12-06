@@ -11,3 +11,4 @@ venv/
 python/outputs/json/
 python/etenders_*.log
 python/pdf_*.log
+debug_ollama_response_*_*.json

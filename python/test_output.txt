@@ -1,0 +1,59 @@
+test_data_structure_validation (test_etl_pipeline.TestETLPipeline)
+Test that scraped data has correct structure ... ok
+test_date_format_validation (test_etl_pipeline.TestETLPipeline)
+Test date strings are in expected format ... ok
+test_resource_id_format (test_etl_pipeline.TestETLPipeline)
+Test resource_id is numeric string ... ok
+test_value_format_validation (test_etl_pipeline.TestETLPipeline)
+Test estimated value format ... ok
+test_parse_currency_value (test_etl_pipeline.TestTypeCoercion)
+Test parsing currency strings to float ... ok
+test_parse_date_string (test_etl_pipeline.TestTypeCoercion)
+Test parsing date strings ... ok
+test_parse_datetime_string (test_etl_pipeline.TestTypeCoercion)
+Test parsing datetime strings with time ... ok
+test_content_type_validation (test_etl_pipeline.TestPDFValidation)
+Test Content-Type header validation ... ok
+test_pdf_download_server_error (test_etl_pipeline.TestPDFValidation)
+Test handling of server errors ... ok
+test_pdf_download_success (test_etl_pipeline.TestPDFValidation)
+Test successful PDF download ... ok
+test_pdf_magic_bytes (test_etl_pipeline.TestPDFValidation)
+Test PDF file signature validation ... ok
+test_cpv_code_format (test_etl_pipeline.TestCPVValidation)
+Test CPV code format validation ... ok
+test_cpv_extraction_from_text (test_etl_pipeline.TestCPVValidation)
+Test extracting CPV codes from text ... ok
+test_cpv_list_file_exists (test_etl_pipeline.TestCPVValidation)
+Test that CPV reference file exists ... ok
+test_bid_analysis_schema (test_etl_pipeline.TestSchemaValidation)
+Test BID_ANALYSIS table schema ... ok
+test_etenders_core_schema (test_etl_pipeline.TestSchemaValidation)
+Test ETENDERS_CORE table schema ... ok
+test_pdf_table_schema (test_etl_pipeline.TestSchemaValidation)
+Test ETENDERS_PDF table schema ... ok
+test_confidence_score_range (test_etl_pipeline.TestDataIntegrity)
+Test that confidence scores are between 0 and 1 ... ok
+test_estimated_value_positive (test_etl_pipeline.TestDataIntegrity)
+Test that estimated values are positive ... ok
+test_resource_id_uniqueness (test_etl_pipeline.TestDataIntegrity)
+Test that resource_ids are unique ... ok
+test_submission_deadline_after_published (test_etl_pipeline.TestDataIntegrity)
+Test business rule: deadline should be after published date ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.117s
+
+OK
+
+================================================================================
+ETL PIPELINE TEST SUMMARY
+================================================================================
+Tests run:     21
+✓ Successes:   21
+✗ Failures:    0
+⚠ Errors:      0
+
+ALL TESTS PASSED!
+Success rate:  100.0%
+================================================================================

@@ -1,0 +1,360 @@
+[2025-12-05T15:43:28.652762] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7141507
+Record: {'resource_id': 7141507, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7141507', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Construction\xa0work\xa0for\xa0water\xa0and\xa0sewage\xa0pipelines\nMCC\xa0Connection\xa0to\xa0Knockmore\xa0reservoir\xa0and\xa0Existing\xa0Network\xa0Upgrade\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Mayo\xa0County\xa0Council_1127\nL...
+--------------------------------------------------------------------------------
+[2025-12-05T15:43:42.136215] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7137277
+Record: {'resource_id': 7137277, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7137277', 'pdf_parsed': True, 'pdf_content': {'full_text': "Ireland:\xa0Foreign\xa0affairs\xa0and\xa0other\xa0services\nArchival\xa0Records\xa0Reviewer\xa0(30\xa0year\xa0rule)\xa0for\xa0the\xa0Department\xa0of\xa0Foreign\xa0Affairs\xa0and\xa0Trade\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Department\xa0of...
+--------------------------------------------------------------------------------
+[2025-12-05T15:43:51.657170] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7136880
+Record: {'resource_id': 7136880, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7136880', 'pdf_parsed': True, 'pdf_content': {'full_text': "Ireland:\xa0Engineering\xa0services\nEmployer's\xa0Representative\xa0Engineering\xa0and\xa0Project\xa0Management\xa0Consultancy\xa0Services\xa0for\xa0\nthe\xa0Connection\xa0of\xa0the\xa0Kells\xa0GWS\xa0to\xa0the\xa0Mountain\xa0Stage\xa0PWS\xa0in\xa0County\xa0Kerry\xa0and\xa0Taking\xa0in\xa0\nCharge\xa0by\xa0Uisce\xa0Eirean\...
+--------------------------------------------------------------------------------
+[2025-12-05T15:44:03.885860] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7137745
+Record: {'resource_id': 7137745, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7137745', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Artistic\xa0services\nFCC/096/24.F\xa0Single\xa0Supplier\xa0Framework\xa0for\xa0the\xa0Provision\xa0of\xa0Professional\xa0Services\xa0to\xa0\nSupport\xa0the\xa0development\xa0and\xa0delivery\xa0of\xa0Fingal\xa0County\xa0Councils\xa0Public\xa0Art\xa0Private\xa0Developer\xa0\nProgramme\n\nContract\xa0or\xa0concess...
+--------------------------------------------------------------------------------
+[2025-12-05T15:44:16.139951] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7088653
+Record: {'resource_id': 7088653, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7088653', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Hotel\xa0meeting\xa0and\xa0conference\xa0services\nTender\xa0for\xa0establishing\xa0a\xa0multi\xadparty\xa0Framework\xa0Agreement\xa0for\xa0the\xa0provision\xa0of\xa0residential\xa0\nvenues\xa0and\xa0related\xa0services\xa0for\xa0hosting\xa0the\xa0SPS\xa0Strategic\xa0Leadership\xa0Programme\xa0on\xa0behalf\xa0of...
+--------------------------------------------------------------------------------
+[2025-12-05T15:44:31.497790] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7008808
+Record: {'resource_id': 7008808, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7008808', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Energy\xa0and\xa0related\xa0services\nOpen\xa0Energy\xa0System\xa0Model\xa0of\xa0Ireland,\xa0Focusing\xa0on\xa0Electric\xa0Power\xa0with\xa0Multi\xadEnergy\xa0Carrier\xa0\nExtensibility\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Sustai...
+--------------------------------------------------------------------------------
+[2025-12-05T15:45:06.117827] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ..., submission_deadline, main_classification, lots, pdf_conten...
+                                                             ^
+
+Record ID: 7130034
+Record: {'resource_id': 7130034, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7130034', 'pdf_parsed': True, 'procedure_id': 'f4883f64-af0c-469e-bb43-c6495bc2031f', 'title': 'SINGLE PARTY FRAMEWORK FOR THE SUPPLY OF IT HARDWARE AND ASSOCIATED EQUIPMENT TO HORSE RACING IRELAND AND SUBSIDIARIES', 'buyer_name': 'Horse Racing Ireland (HRI)', 'buyer_country': 'Ireland', 'estimated_value': '1,000,000 Euro', 'start_date': '', 'duration_months': '4 Year', 'submission_...
+--------------------------------------------------------------------------------
+[2025-12-05T15:45:06.135472] PostgreSQL Write Error
+Error: column "has_validated_cpv" of relation "cpvs" does not exist
+LINE 2: ... (resource_id, cpv_count, cpv_codes, cpv_details, has_valida...
+                                                             ^
+
+Record ID: 7130034
+Record: {'resource_id': 7130034, 'cpv_count': 1, 'cpv_codes': ['30200000'], 'cpv_details': [{'code': '30200000', 'description': '30200000 Computer equipment and supplies', 'source': 'pdf_main_classification', 'validated': False}], 'has_validated_cpv': False}...
+--------------------------------------------------------------------------------
+[2025-12-05T15:45:15.940983] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7129735
+Record: {'resource_id': 7129735, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7129735', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Postage\xadfranking\xa0machines\nLease\xa0of\xa0Franking\xa0Machine\xa0CHO7\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Health\xa0Service\xa0Executive\xa0(HSE)\nLegal\xa0type\xa0of\xa0the\xa0buyer:\xa0Body\xa0governed\xa0by\xa0public\xa...
+--------------------------------------------------------------------------------
+[2025-12-05T15:46:27.618148] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 6962773
+Record: {'resource_id': 6962773, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=6962773', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Civil\xa0engineering\xa0consultancy\xa0services\nCork\xa0Northern\xa0Distributor\xa0Multi\xa0Modal\xa0Route\xa0\xad\xa0Multi\xadDisciplinary\xa0Consultancy\xa0Services\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Cork\xa0City\xa0Council\...
+--------------------------------------------------------------------------------
+[2025-12-05T15:46:40.756313] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7125462
+Record: {'resource_id': 7125462, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7125462', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Computer\xa0support\xa0and\xa0consultancy\xa0services\n25P077\xa02rn\xa02641\xa0Software\xa0Reseller\xa0Services\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Raidió\xa0Teilifís\xa0Éireann\xa0(\xa0RTÉ\xa0)\nLegal\xa0type\xa0of\xa0the\xa0b...
+--------------------------------------------------------------------------------
+[2025-12-05T15:46:40.772100] PostgreSQL Write Error
+Error: column "has_validated_cpv" of relation "cpvs" does not exist
+LINE 2: ... (resource_id, cpv_count, cpv_codes, cpv_details, has_valida...
+                                                             ^
+
+Record ID: 7125462
+Record: {'resource_id': 7125462, 'cpv_count': 2, 'cpv_codes': ['72600000', '48000000'], 'cpv_details': [{'code': '72600000', 'description': 'Computer support and consultancy services', 'source': 'pdf_content_full_text', 'validated': True}, {'code': '48000000', 'description': 'Software package and information systems', 'source': 'pdf_content_full_text', 'validated': True}], 'has_validated_cpv': True}...
+--------------------------------------------------------------------------------
+[2025-12-05T15:46:50.390259] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7126492
+Record: {'resource_id': 7126492, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7126492', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Construction\xa0work\xa0for\xa0multi\xaddwelling\xa0buildings\xa0and\xa0individual\xa0houses\nDeravarra\xa0Farm\xa0Lake\xa0Lodges\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Deravarra\xa0Gallops\xa0Ltd\nLegal\xa0type\xa0of\xa0the\xa0buy...
+--------------------------------------------------------------------------------
+[2025-12-05T15:46:58.988975] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7127508
+Record: {'resource_id': 7127508, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7127508', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Repair\xa0and\xa0maintenance\xa0services\xa0of\xa0electricity\xa0meters\nSingle\xa0Party\xa0Framework\xa0for\xa0the\xa0Provision\xa0and\xa0Ongoing\xa0Support\xa0of\xa0Integrated\xa0Smart\xa0Energy\xa0\nMeters,\xa0Network\xa0and\xa0Data\xa0Management\xa0System\xa0and\xa0Associated\xa0Services\xa0to\xa0Dublin\xa0a...
+--------------------------------------------------------------------------------
+[2025-12-05T15:47:11.983138] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7009129
+Record: {'resource_id': 7009129, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7009129', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Energy\xa0and\xa0related\xa0services\nSingle\xa0Point\xa0of\xa0Contact\xa0Monitoring\xa0Portal\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Sustainable\xa0Energy\xa0Authority\xa0of\xa0Ireland\nLegal\xa0type\xa0of\xa0the\xa0buyer:\xa0Body...
+--------------------------------------------------------------------------------
+[2025-12-05T15:47:12.001316] PostgreSQL Write Error
+Error: column "has_validated_cpv" of relation "cpvs" does not exist
+LINE 2: ... (resource_id, cpv_count, cpv_codes, cpv_details, has_valida...
+                                                             ^
+
+Record ID: 7009129
+Record: {'resource_id': 7009129, 'cpv_count': 3, 'cpv_codes': ['72222000', '72224000', '72222300'], 'cpv_details': [{'code': '72222000', 'description': 'Information systems or technology strategic review and planning services', 'source': 'pdf_content_full_text', 'validated': True}, {'code': '72224000', 'description': 'Project management consultancy services', 'source': 'pdf_content_full_text', 'validated': True}, {'code': '72222300', 'description': 'Information technology services', 'source': 'pdf_conte...
+--------------------------------------------------------------------------------
+[2025-12-05T15:47:25.219467] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7134969
+Record: {'resource_id': 7134969, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7134969', 'pdf_parsed': True, 'pdf_content': {'full_text': "Ireland:\xa0Architectural\xa0design\xa0services\nGrade\xa03\xa0Conservation\xa0Architect\xa0led\xa0Integrated\xa0Design\xa0Team\xa0Consultancy\xa0Services\xa0for\xa0\nConservation\xa0and\xa0Mixed\xadUse\xa0Redevelopment\xa0Project\xa0at\xa0J.D.\xa0Daly’s,\xa0Abbeyfeale,\xa0Co.\xa0Limerick\n\nContract\xa0or\xa0concession\xa0...
+--------------------------------------------------------------------------------
+[2025-12-05T15:47:25.235872] PostgreSQL Write Error
+Error: column "has_validated_cpv" of relation "cpvs" does not exist
+LINE 2: ... (resource_id, cpv_count, cpv_codes, cpv_details, has_valida...
+                                                             ^
+
+Record ID: 7134969
+Record: {'resource_id': 7134969, 'cpv_count': 1, 'cpv_codes': ['72224000'], 'cpv_details': [{'code': '72224000', 'description': 'Project management consultancy services', 'source': 'pdf_content_full_text', 'validated': True}], 'has_validated_cpv': True}...
+--------------------------------------------------------------------------------
+[2025-12-05T15:47:37.492190] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 6985234
+Record: {'resource_id': 6985234, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=6985234', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Roof\xa0repair\xa0and\xa0maintenance\xa0work\nRoof\xa0Refurbishment\xa0Works\xa0for\xa0Inland\xa0Fisheries\xa0Ireland\xa0at\xa0Claregalway,\xa0Co.\xa0Galway\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Inland\xa0Fisheries\xa0Ireland\nLeg...
+--------------------------------------------------------------------------------
+[2025-12-05T15:47:49.697969] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7130850
+Record: {'resource_id': 7130850, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7130850', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Construction\xa0work\xa0for\xa0pipelines,\xa0communication\xa0and\xa0power\xa0lines,\xa0for\xa0highways,\xa0\nroads,\xa0airfields\xa0and\xa0railways;\xa0flatwork\nLousybush\xa0Access\xa0Road\xa0Scheme\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0...
+--------------------------------------------------------------------------------
+[2025-12-05T15:48:00.648373] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7131494
+Record: {'resource_id': 7131494, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7131494', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0School\xadmeal\xa0services\nCall\xa0for\xa0Tender\xa0for\xa0the\xa0provision\xa0of\xa0Hot\xa0Meals\xa0under\xa0the\xa0Hot\xa0Meals\xa0Scheme\xa0to\xa0Geashill\xa01\xa0NS\xa0\n09191I\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Geashill\x...
+--------------------------------------------------------------------------------
+[2025-12-05T15:48:14.785761] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7131701
+Record: {'resource_id': 7131701, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7131701', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Engineering\xa0design\xa0services\nEngineering\xa0Consultancy\xa0Services\xa0for\xa0the\xa0Design\xa0and\xa0Construction\xa0Stages\xa0for\xa0Cloonamore\xa0\nBay,\xa0Inishbofin,\xa0Coastal\xa0Protection\xa0Works\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOf...
+--------------------------------------------------------------------------------
+[2025-12-05T15:48:54.279557] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7129570
+Record: {'resource_id': 7129570, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7129570', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Packaging\xa0machines\nSupply\xa0and\xa0installation\xa0of\xa0machinery\xa0capable\xa0of\xa0weighing\xa0and\xa0bagging\xa0toffee\xa0popcorn\xa0at\xa0\nCPAC\xa0Foods,\xa0Swinford\xa0Road,\xa0Belgarrow,\xa0Foxford,\xa0Co.\xa0Mayo,\xa0F26\xa0E727.\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime...
+--------------------------------------------------------------------------------
+[2025-12-05T15:49:02.810066] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7117151
+Record: {'resource_id': 7117151, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7117151', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0School\xadmeal\xa0services\nCall\xa0for\xa0tenders\xa0for\xa0the\xa0provision\xa0of\xa0hot\xa0meals\xa0under\xa0the\xa0school\xa0meals\xa0scheme\xa0to\xa0Scoil\xa0\nChrochán\xa0Naofa,10239R\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Sc...
+--------------------------------------------------------------------------------
+[2025-12-05T15:49:12.381902] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7129529
+Record: {'resource_id': 7129529, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7129529', 'pdf_parsed': True, 'pdf_content': {'full_text': "Ireland:\xa0Development\xa0consultancy\xa0services\nDevelopment\xa0of\xa0a\xa0Strategy\xa0and\xa0Action\xa0Plan\xa0for\xa0North\xadSouth\xa0and\xa0East\xadWest\xa0cross\xadborder\xa0\ncooperation\xa0to\xa0the\xa0Developing\xa0Irish\xa0Sea\xa0Cooperation\xa0(DISC)\xa0project.\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa...
+--------------------------------------------------------------------------------
+[2025-12-05T15:49:23.586028] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7125898
+Record: {'resource_id': 7125898, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7125898', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0School\xadmeal\xa0services\nCall\xa0for\xa0tender\xa0for\xa0the\xa0provision\xa0of\xa0Hot\xa0Meals\xa0under\xa0the\xa0School\xa0Meals\xa0scheme\xa0to\xa0Kilbeg\xa0NS\xa0\nCarlanstown\xa011039o\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa...
+--------------------------------------------------------------------------------
+[2025-12-05T15:49:34.290533] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7123566
+Record: {'resource_id': 7123566, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7123566', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Installation\xa0services\xa0of\xa0equipment\xa0for\xa0measuring,\xa0checking,\xa0testing\xa0and\xa0navigating\nRequest\xa0for\xa0Tenders\xa0for\xa0the\xa0provison\xa0of\xa0Non\xadInvasive\xa0Signs\xa0of\xa0Life\xa0Technology\xa0with\xa0\nassociated\xa0software\xa0and\xa0Services,\xa0for\xa0the\xa0Irish\xa0Prison...
+--------------------------------------------------------------------------------
+[2025-12-05T15:49:42.377865] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7111054
+Record: {'resource_id': 7111054, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7111054', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Security\xa0software\xa0package\nRFT\xa0for\xa0the\xa0supply\xa0of\xa0a\xa0Threat\xa0and\xa0Vulnerability\xa0Management\xa0Platform\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Department\xa0of\xa0Social\xa0Protection_349\nLegal\xa0type\...
+--------------------------------------------------------------------------------
+[2025-12-05T15:49:55.554973] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7123333
+Record: {'resource_id': 7123333, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7123333', 'pdf_parsed': True, 'pdf_content': {'full_text': "Ireland:\xa0Justice\xa0services\nRFT\xa0for\xa0the\xa0provision\xa0of\xa0an\xa0Electronic\xa0Monitoring\xa0Managed\xa0Service\xa0for\xa0an\xa0Electronic\xa0\nMonitoring\xa0Pilot\xa0Programme\xa0in\xa0Ireland\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:...
+--------------------------------------------------------------------------------
+[2025-12-05T15:49:55.575153] PostgreSQL Write Error
+Error: column "has_validated_cpv" of relation "cpvs" does not exist
+LINE 2: ... (resource_id, cpv_count, cpv_codes, cpv_details, has_valida...
+                                                             ^
+
+Record ID: 7123333
+Record: {'resource_id': 7123333, 'cpv_count': 1, 'cpv_codes': ['72222300'], 'cpv_details': [{'code': '72222300', 'description': 'Information technology services', 'source': 'pdf_content_full_text', 'validated': True}], 'has_validated_cpv': True}...
+--------------------------------------------------------------------------------
+[2025-12-05T15:50:08.770243] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7122856
+Record: {'resource_id': 7122856, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7122856', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Architectural\xa0design\xa0services\n2025\xa0Manor\xa0House\xa0Raheny\xa0Architectural\xa0Consultancy\xa0Services\xa0for\xa0Category\xa05:\xa0Climate\xa0Action\xa0\nand\xa0Science\xa0Labs\xa0(incl.\xa0Gas\xa0Works)\xa0CASWS\xa0project\xa0at\xa0Manor\xa0House\xa0School\xa0Watermill\xa0Road\xa0\nRaheny\xa0Dublin\x...
+--------------------------------------------------------------------------------
+[2025-12-05T15:50:18.537946] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7122386
+Record: {'resource_id': 7122386, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7122386', 'pdf_parsed': True, 'pdf_content': {'full_text': "Ireland:\xa0Recruitment\xa0services\nProvision\xa0of\xa0Agency\xa0Nurses\xa0and\xa0Midwives\xa0to\xa0the\xa0HSE\n\nContract\xa0notice\xa0–\xa0light\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Health\xa0Service\xa0Executive\xa0(HSE)\nLegal\xa0type\xa0of\xa0the\xa0buyer:\xa0Body\xa0governed\xa0by\xa0public\x...
+--------------------------------------------------------------------------------
+[2025-12-05T15:50:35.150744] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7117246
+Record: {'resource_id': 7117246, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7117246', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Telecommunications\xa0services\nStrategic,\xa0economic,\xa0commercial\xa0and\xa0technical\xa0advisory\xa0services\xa0to\xa0support\xa0the\xa0Metropolitan\xa0\nArea\xa0Networks\xa0Concession\xa0Agreements\xa0of\xa0the\xa0Department\xa0of\xa0Culture,\xa0Communications\xa0and\xa0\nSport\n\nContract\xa0or\xa0concess...
+--------------------------------------------------------------------------------
+[2025-12-05T15:50:50.363039] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7116756
+Record: {'resource_id': 7116756, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7116756', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Construction\xa0work\nMulti\xadParty\xa0Framework\xa0Agreement\xa0for\xa0Housing\xa0Minor\xa0Building\xa0Works\xa0Residential\xa0(Estimated\xa0\nworks\xa0between\xa0€50k\xad€600k)\xa0for\xa0Wexford\xa0County\xa0Council\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0B...
+--------------------------------------------------------------------------------
+[2025-12-05T15:51:02.174480] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7120516
+Record: {'resource_id': 7120516, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7120516', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Architectural\xa0design\xa0services\n2025\xa0Loreto\xa0College\xa0Cavan\xa0Architectural\xa0Consultancy\xa0Services\xa0for\xa0Category\xa05:\xa0Climate\xa0Action\xa0\nand\xa0Science\xa0Labs\xa0(incl\xa0Gas\xa0Works)\xa0CASWS\xa0project\xa0at\xa0Loreto\xa0College\xa0Cavan\xa0Drumkeen\xa0Cavan\xa0\nCo.\xa0Cavan\xa...
+--------------------------------------------------------------------------------
+[2025-12-05T15:51:15.361573] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7120464
+Record: {'resource_id': 7120464, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7120464', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Architectural\xa0design\xa0services\n2025\xa0St.\xa0Mary’\xa0Diocesan\xa0Drogheda\xa0Architectural\xa0Consultancy\xa0Services\xa0for\xa0Category\xa02:\xa0\nClimate\xa0Action\xa0and\xa0Roof\xa0Works\xa0CASWS\xa0project\xa0at\xa0St.\xa0Mary’s\xa0Diocesan\xa0School\xa0Beamore\xa0Road,\xa0\nDrogheda,\xa0Co\xa0Louth\...
+--------------------------------------------------------------------------------
+[2025-12-05T15:51:27.124875] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7120371
+Record: {'resource_id': 7120371, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7120371', 'pdf_parsed': True, 'pdf_content': {'full_text': "Ireland:\xa0Architectural,\xa0construction,\xa0engineering\xa0and\xa0inspection\xa0services\nRevival\xa0of\xa0the\xa0Courthouse\xa0Project\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0Donegal\xa0County\xa0Council_1193\nLegal\xa0type\xa0of\xa0the\xa0...
+--------------------------------------------------------------------------------
+[2025-12-05T15:51:36.143181] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7119849
+Record: {'resource_id': 7119849, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7119849', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Educational\xa0software\xa0development\xa0services\nRequest\xadfor\xadTenders\xa0under\xa0Open\xa0(OJEU)\xa0Procedure\xa0for\xa0the\xa0Provision,\xa0Implementation,\xa0\nMaintenance\xa0and\xa0Support\xa0of\xa0a\xa0Timetable\xa0and\xa0room\xa0booking\xa0system\xa0for\xa0Technological\xa0\nUniversity\xa0Dublin.\n\...
+--------------------------------------------------------------------------------
+[2025-12-05T15:51:47.290662] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7119465
+Record: {'resource_id': 7119465, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7119465', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Software\xa0package\xa0and\xa0information\xa0systems\nT.086/2025\xa0Request\xa0for\xa0Tenders\xa0for\xa0the\xa0supply\xa0of\xa0Red\xa0Hat\xa0Enterprise\xa0Linux\xa0Subscriptions,\xa0for\xa0\nAn\xa0Garda\xa0Síochána\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer...
+--------------------------------------------------------------------------------
+[2025-12-05T15:51:47.302894] PostgreSQL Write Error
+Error: column "has_validated_cpv" of relation "cpvs" does not exist
+LINE 2: ... (resource_id, cpv_count, cpv_codes, cpv_details, has_valida...
+                                                             ^
+
+Record ID: 7119465
+Record: {'resource_id': 7119465, 'cpv_count': 2, 'cpv_codes': ['48000000', '72000000'], 'cpv_details': [{'code': '48000000', 'description': 'Software package and information systems', 'source': 'pdf_content_full_text', 'validated': True}, {'code': '72000000', 'description': 'IT services - consulting', 'source': 'pdf_content_full_text', 'validated': True}], 'has_validated_cpv': True}...
+--------------------------------------------------------------------------------
+[2025-12-05T15:51:58.292339] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7120322
+Record: {'resource_id': 7120322, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7120322', 'pdf_parsed': True, 'pdf_content': {'full_text': "Ireland:\xa0Architectural\xa0design\xa0services\n2025\xa0Presentation\xa0Sec\xa0School\xa0Wexford\xa0Architectural\xa0Consultancy\xa0Services\xa0for\xa0Category\xa02:\xa0\nClimate\xa0Action\xa0and\xa0Roof\xa0Works\xa0CASWS\xa0project\xa0at\xa0Presentation\xa0Secondary\xa0School\xa0Grogan's\xa0\nRoad\xa0Wexford\xa0Y35\xa0XV7...
+--------------------------------------------------------------------------------
+[2025-12-05T15:52:09.786222] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7120241
+Record: {'resource_id': 7120241, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7120241', 'pdf_parsed': True, 'pdf_content': {'full_text': "Ireland:\xa0Architectural\xa0design\xa0services\n2025\xa0St.\xa0Kevin’s\xa0College\xa0Ballygall\xa0Architectural\xa0Consultancy\xa0Services\xa0for\xa0Category\xa02:\xa0Climate\xa0\nAction\xa0and\xa0Roof\xa0Works\xa0CASWS\xa0project\xa0at\xa0St\xa0Kevin’s\xa0College,\xa0Ballygall\xa0Rd\xa0East,\xa0Finglas\xa0Dublin\xa0\nD11V...
+--------------------------------------------------------------------------------
+[2025-12-05T15:52:26.319078] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7114369
+Record: {'resource_id': 7114369, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7114369', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Plumbing\xa0equipment\nThe\xa0Supply\xa0of\xa0Training\xa0and\xa0Classroom\xa0Materials\xa0in\xa0three\xa0lots\xa0–\xa0Plumbing\xa0Supplies,\xa0Timber\xa0\nSupplies\xa0and\xa0Welding\xa0Supplies\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\...
+--------------------------------------------------------------------------------
+[2025-12-05T15:52:38.620287] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7117452
+Record: {'resource_id': 7117452, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7117452', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Engineering\xa0works\xa0and\xa0construction\xa0works\nTEN2500112\xa0\xad\xa0Invitation\xa0to\xa0Tender\xa0for\xa0the\xa0Construction\xa0of\xa0the\xa0Cavan\xa0Regional\xa0Sport\xa0Campus\xa0\n(Phase\xa01\xa0\xad\xa0Pre\xa0Qualification)\xa0)\xa0for\xa0Cavan\xa0County\xa0Council\n\nContract\xa0or\xa0concession\xa0...
+--------------------------------------------------------------------------------
+[2025-12-05T15:52:50.622890] PostgreSQL Write Error
+Error: column "pdf_content" of relation "pdfs" does not exist
+LINE 2: ...SERT INTO pdfs (resource_id, pdf_url, pdf_parsed, pdf_conten...
+                                                             ^
+
+Record ID: 7119750
+Record: {'resource_id': 7119750, 'pdf_url': 'https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7119750', 'pdf_parsed': True, 'pdf_content': {'full_text': 'Ireland:\xa0Mailing\xadlist\xa0compilation\xa0and\xa0mailing\xa0services\nNational\xa0Spring\xa0Clean\xa0materials\xa0packing\xa0and\xa0distribution\xa02026\n\nContract\xa0or\xa0concession\xa0notice\xa0–\xa0standard\xa0regime\n\n1\xa0Buyer\n\n1.1\xa0Buyer\nOfficial\xa0name:\xa0An\xa0Taisce\xa0Environmental\xa0Education\xa0U...
+--------------------------------------------------------------------------------

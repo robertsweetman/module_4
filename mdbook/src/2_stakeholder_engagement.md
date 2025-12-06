@@ -6,10 +6,8 @@ Identify key stakeholders, then gather and prioritise requirements
 -->
 Key stakeholders are the business leaders responsible for the sales effort in Ireland, the development team who build and deploy internal applications and the support team responsible for ongoing management of their applications.
 
-Each of these groups have differing requirements, arguably split between business and technical considerations. The Development team's focus is building and deploying whereas the Support team is more interested in operations and maintainability.
-
-- **Sales Team**: Focus on usability, visibility, and deadline management (core business needs)
-- **Tech Team**: Emphasis on security, compliance, and authentication (protecting sensitive tender data)
+- **Sales Team**: Focus on usability, visibility, deadline management (core business needs) and winning tenders
+- **Development Team**: Emphasis on security, compliance, and authentication (protecting sensitive tender data)
 - **Support Team**: Priority on maintainability, alarms, user management, and documentation (keeping the system running smoothly)
 
 <!--
@@ -53,9 +51,9 @@ Each of these groups have differing requirements, arguably split between busines
 
 ### Database Options
 
-Taking the characteristics of the data into account means we can rule out certain database types.
+By taking the characteristics of the data into account we can rule out certain database types.
 
-It's not streaming, unstructured data so no-sql/schema less data types aren't really valuable here. While you could consider each tender record to be a "document" there really isn't the update frequency, scalability issues or fault tolerance requirements for less than 3000 records.
+It's not streaming, unstructured data so no-sql data types aren't really valuable here. While you could consider each tender record to be a "document" there really isn't the update frequency, scalability issues or fault tolerance requirements because we're dealing with less than 3000 records.
 
 We can use a traditional SQL scheme approach because the structure of the data is well understood, it doesn't change often and we can use traditional backup methods rather than having to worry about scaling or data-replication.
 
@@ -65,7 +63,7 @@ We can use a traditional SQL scheme approach because the structure of the data i
 - Reads are infrequent
 - Total data volume is not large (3000 - 5000 records max)  
 
-What is possibly open for debate is how to load/update and interact with the database. Should it be in the cloud? Which one? Should it be hosted on a server or as a service? Which particular flavour of SQL should we use? Postgresql? Microsoft SQL? We can use several Azure hosted options (Microsoft.com, 2025)
+What is possibly open for debate is how to load/update and interact with the database. Should it be in the cloud? Which one? Should it be hosted on a server or as a service? Which particular flavour of SQL should we use? Postgresql? Microsoft SQL? We can also use several Azure hosted options (Microsoft.com, 2025)
 
 From talking to Technical & Support stakeholders we do know it needs to interact with Microsoft services (Dynamics 365) and potentially run in Azure.
 
@@ -154,7 +152,7 @@ flowchart TD
     style Templates fill:#d4edda
 ```
 
-Since the technical stakeholders are also very important we should aim to get their buy in but this time the focus is on data-flow, integration with other tools, ease of support, security, logging and upgradeability.
+We should aim to get technical stakeholder by in through focusing on data-flow, using standardised tools, ease of support, security, logging and maintainability.
 
 ```mermaid
 graph TB
@@ -226,9 +224,9 @@ graph TB
     style PostgreSQL fill:#336791
 ```
 
-We could also list technical options (at least) with reasons why they were rejected.
+We're going to take the Python functions used to develop the proof of concept and re-work them into Azure Functions.
 
-This also needs to mention testing and flexible design.
+We can also use the PostgreSQL database as a back-end for Microsoft Fabric (abnarain, 2025) which will integrate with incoming email updates about tender awards as well as updates from the Sales Team.
 
 <!--
 Generate Ideas for developing a data solution, or update to data architecture

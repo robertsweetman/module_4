@@ -9,6 +9,7 @@ from io import BytesIO
 from pdfminer.high_level import extract_text
 import json
 import re
+import time
 from typing import Dict, Any
 from datetime import datetime
 
@@ -68,13 +69,13 @@ def extract_pdf_text(pdf_url: str) -> str:
         return ''
 
 
-def parse_pdf_with_ollama(text_content: str, model: str = "llama3.2:3b", debug: bool = False) -> Dict[str, Any]:
+def parse_pdf_with_ollama(text_content: str, model: str = "llama3.1:8b", debug: bool = False) -> Dict[str, Any]:
     """
     Parse PDF text using local Ollama LLM to extract structured metadata AND organize full content by headings.
     
     Args:
         text_content: Extracted PDF text
-        model: Ollama model to use (default: llama3.2:3b)
+        model: Ollama model to use (default: llama3.1:8b)
         debug: If True, save problematic responses to debug_ollama_response.json
         
     Returns:
@@ -115,21 +116,39 @@ PDF Text:
 """ + text_content[:15000]  # Increased limit to capture more content
     
     try:
-        # Call Ollama API
+        # Call Ollama API with longer timeout and retry logic
         logger.info(f"Parsing PDF content with Ollama model: {model}")
         logger.debug(f"Prompt length: {len(prompt)} characters")
         
-        response = requests.post(
-            'http://localhost:11434/api/generate',
-            json={
-                'model': model,
-                'prompt': prompt,
-                'stream': False,
-                'format': 'json'  # Request JSON output
-            },
-            timeout=90  # Increased timeout for more complex parsing
-        )
-        response.raise_for_status()
+        max_retries = 2
+        retry_count = 0
+        
+        while retry_count <= max_retries:
+            try:
+                response = requests.post(
+                    'http://localhost:11434/api/generate',
+                    json={
+                        'model': model,
+                        'prompt': prompt,
+                        'stream': False,
+                        'format': 'json'  # Request JSON output
+                    },
+                    timeout=180  # Increased timeout to 3 minutes
+                )
+                response.raise_for_status()
+                break  # Success, exit retry loop
+                
+            except requests.exceptions.ReadTimeout as e:
+                retry_count += 1
+                if retry_count > max_retries:
+                    logger.error(f"Ollama timeout after {max_retries} retries")
+                    return None
+                logger.warning(f"Ollama timeout, retry {retry_count}/{max_retries}")
+                time.sleep(5)  # Wait before retry
+            
+            except Exception as e:
+                logger.error(f"Ollama request failed: {e}")
+                return None
         
         result = response.json()
         response_text = result.get('response', '')
