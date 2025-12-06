@@ -93,7 +93,8 @@ TENDER SHOULD BE RECOMMENDED (should_bid=true) IF IT INCLUDES ANY OF:
 
 TENDER CAN BE REJECTED (should_bid=false) IF IT IS CLEARLY:
 ❌ Pure physical goods with NO IT services (furniture, office supplies, vehicles, catering equipment)
-❌ Construction or building works with NO IT/digital component
+❌ Construction or building works
+❌ School supplies or educational materials
 ❌ Food, catering, or hospitality services
 ❌ Cleaning or janitorial services
 ❌ Pure medical supplies or pharmaceuticals (not healthcare IT systems)

@@ -181,44 +181,51 @@ if len(confidence_data) > 0:
 else:
     st.info("No confidence data available yet")
 
-# Timeline
-st.subheader("📅 Tender Timeline - Recommended Bids")
-timeline_data = load_data("""
+# Value Distribution
+st.subheader("💰 Value Distribution - Recommended Bids")
+value_dist_data = load_data("""
     SELECT 
-        DATE_TRUNC('week', ec.date_published_parsed) as week,
+        CASE 
+            WHEN ec.estimated_value_numeric < 50000 THEN '< €50k'
+            WHEN ec.estimated_value_numeric < 100000 THEN '€50k - €100k'
+            WHEN ec.estimated_value_numeric < 250000 THEN '€100k - €250k'
+            WHEN ec.estimated_value_numeric < 500000 THEN '€250k - €500k'
+            ELSE '> €500k'
+        END as value_range,
         COUNT(*) as tender_count,
-        SUM(ec.estimated_value_numeric) as total_value
+        COALESCE(SUM(ec.estimated_value_numeric), 0) as total_value
     FROM etenders_core ec
     JOIN bid_analysis ba ON ec.resource_id = ba.resource_id
     WHERE ba.should_bid = TRUE
-    AND ec.date_published_parsed IS NOT NULL
-    GROUP BY week
-    ORDER BY week DESC
-    LIMIT 12
+    AND ec.estimated_value_numeric IS NOT NULL
+    GROUP BY value_range
+    ORDER BY MIN(ec.estimated_value_numeric)
 """)
 
-if len(timeline_data) > 0:
-    fig_timeline = go.Figure()
-    fig_timeline.add_trace(go.Bar(
-        x=timeline_data['week'],
-        y=timeline_data['tender_count'],
-        name='Tender Count',
-        marker_color='#00CC66'
+if len(value_dist_data) > 0:
+    fig_value_dist = go.Figure()
+    fig_value_dist.add_trace(go.Bar(
+        x=value_dist_data['value_range'],
+        y=value_dist_data['tender_count'],
+        text=value_dist_data['total_value'].apply(lambda x: f"€{x:,.0f}"),
+        textposition='outside',
+        marker_color='#00CC66',
+        hovertemplate='<b>%{x}</b><br>Count: %{y}<br>Total Value: %{text}<extra></extra>'
     ))
-    fig_timeline.update_layout(
+    fig_value_dist.update_layout(
         height=300,
-        xaxis_title='Week',
-        yaxis_title='Number of Recommended Tenders',
+        xaxis_title='Value Range',
+        yaxis_title='Number of Tenders',
         showlegend=False
     )
-    st.plotly_chart(fig_timeline, use_container_width=True)
+    st.plotly_chart(fig_value_dist, use_container_width=True)
 else:
-    st.info("No timeline data available yet")
+    st.info("No value distribution data available yet")
 
-# Top Recommended Tenders
-st.subheader("🏆 Top Recommended Opportunities")
+# Top Recommended Tenders with Known Value
+st.subheader("🏆 Top Recommended Opportunities (Known Value)")
 
-top_tenders = load_data("""
+top_tenders_valued = load_data("""
     SELECT 
         ec.resource_id,
         ec.title,
@@ -230,19 +237,20 @@ top_tenders = load_data("""
     FROM etenders_core ec
     JOIN bid_analysis ba ON ec.resource_id = ba.resource_id
     WHERE ba.should_bid = TRUE
-    ORDER BY ba.confidence DESC, ec.estimated_value_numeric DESC
+    AND ec.estimated_value_numeric IS NOT NULL
+    ORDER BY ec.estimated_value_numeric DESC, ba.confidence DESC
     LIMIT 10
 """)
 
-if len(top_tenders) > 0:
+if len(top_tenders_valued) > 0:
     # Format the dataframe
-    display_df = top_tenders.copy()
-    display_df['value'] = display_df['value'].apply(lambda x: f"€{x:,.0f}" if pd.notna(x) else "N/A")
-    display_df['confidence'] = display_df['confidence'].apply(lambda x: f"{x:.0%}" if pd.notna(x) else "N/A")
-    display_df['deadline'] = pd.to_datetime(display_df['deadline']).dt.strftime('%Y-%m-%d')
+    display_df_valued = top_tenders_valued.copy()
+    display_df_valued['value'] = display_df_valued['value'].apply(lambda x: f"€{x:,.0f}" if pd.notna(x) else "N/A")
+    display_df_valued['confidence'] = display_df_valued['confidence'].apply(lambda x: f"{x:.0%}" if pd.notna(x) else "N/A")
+    display_df_valued['deadline'] = pd.to_datetime(display_df_valued['deadline']).dt.strftime('%Y-%m-%d')
     
     # Rename columns for display
-    display_df = display_df.rename(columns={
+    display_df_valued = display_df_valued.rename(columns={
         'resource_id': 'ID',
         'title': 'Title',
         'contracting_authority': 'Authority',
@@ -253,7 +261,7 @@ if len(top_tenders) > 0:
     })
     
     st.dataframe(
-        display_df,
+        display_df_valued,
         use_container_width=True,
         height=400,
         column_config={
@@ -262,7 +270,54 @@ if len(top_tenders) > 0:
         }
     )
 else:
-    st.info("No recommended tenders found yet. Run the pipeline with --analyze-bids flag.")
+    st.info("No recommended tenders with known values found yet.")
+
+# Top Recommended Tenders with Unknown Value
+st.subheader("🏆 Top Recommended Opportunities (Unknown Value)")
+
+top_tenders_unknown = load_data("""
+    SELECT 
+        ec.resource_id,
+        ec.title,
+        ec.contracting_authority,
+        ec.submission_deadline_parsed as deadline,
+        ba.confidence,
+        ba.reasoning
+    FROM etenders_core ec
+    JOIN bid_analysis ba ON ec.resource_id = ba.resource_id
+    WHERE ba.should_bid = TRUE
+    AND ec.estimated_value_numeric IS NULL
+    ORDER BY ba.confidence DESC
+    LIMIT 10
+""")
+
+if len(top_tenders_unknown) > 0:
+    # Format the dataframe
+    display_df_unknown = top_tenders_unknown.copy()
+    display_df_unknown['confidence'] = display_df_unknown['confidence'].apply(lambda x: f"{x:.0%}" if pd.notna(x) else "N/A")
+    display_df_unknown['deadline'] = pd.to_datetime(display_df_unknown['deadline']).dt.strftime('%Y-%m-%d')
+    
+    # Rename columns for display
+    display_df_unknown = display_df_unknown.rename(columns={
+        'resource_id': 'ID',
+        'title': 'Title',
+        'contracting_authority': 'Authority',
+        'deadline': 'Deadline',
+        'confidence': 'Confidence',
+        'reasoning': 'AI Reasoning'
+    })
+    
+    st.dataframe(
+        display_df_unknown,
+        use_container_width=True,
+        height=400,
+        column_config={
+            "Title": st.column_config.TextColumn("Title", width="large"),
+            "AI Reasoning": st.column_config.TextColumn("AI Reasoning", width="large")
+        }
+    )
+else:
+    st.info("No recommended tenders with unknown values found.")
 
 # Statistics sidebar
 with st.sidebar:
