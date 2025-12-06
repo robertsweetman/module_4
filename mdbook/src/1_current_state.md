@@ -36,15 +36,17 @@ This TenderRecord struct is the base object which is either passed between Lambd
 
 #### Tender Records Table
 
-Each record is stored in a single row, like an excel spreadsheet. There is a unique resource_id per tender so we can use this as a key for "something" but not very much consideration has been given to how to use this data beyond the Machine Learning (ML) training that was carried out initially. REF: module_2
+Each record is stored in a single row, like an excel spreadsheet. There is a unique resource_id per tender so we can use this as a key for "something" but not very much consideration has been given to how to use this data beyond the Machine Learning (ML) training that was carried out initially. (robertsweetman, 2025)
 
 In a prior ML training phase, once the eTenders table contained enough records, a percentage were manually labelled as 'tenders we should bid on' and then basic linear regression with tokenisation was run against this training data.
 
-No thought was been given to gaining other insights from the data. It's purely been used as an input to an automated ML/AI process to reduce Sales admin time & to try to avoid missing any tenders which should be looked at by a human.
+Being able to gain other insights from the data wasn't really considered. It's purely been used to reduce Sales admin time & to try to avoid missing any tenders which should be looked at by a human.
 
 #### PDF Content Table
 
-In most cases each tender has an accompanying PDF that contains more information about the bid process for that particular tender. These PDF's are not always comprehensive but they do supply the AI analysis step with a lot of valuable context to help decide whether to bid on something or not.
+In most cases each tender has an accompanying PDF that contains more information about the bid process for that tender.
+
+These PDF's are not always comprehensive but they do supply the AI analysis step with a lot of valuable context to help decide whether to bid on something or not.
 
 However, from a database point of view, the entire PDF is being stored as a long text string in an accompanying pdf_content column which is linked to the main eTenders table via the resource_id key.
 
@@ -52,16 +54,18 @@ However, from a database point of view, the entire PDF is being stored as a long
 
 From talking to stakeholders there has been some very clear feedback.
 
-Reducing the daily tender analysis time has benefited the sales team but the strictly linear workflow (get, parse, analyse, alert) doesn't really leverage the database to deliver further business value beyond automating this one process. Effectively the business value is somewhat limited, given the maintenance and support requirements.
+Reducing the daily tender analysis time has benefited the sales team but the strictly linear workflow (get, parse, analyse, alert) doesn't really leverage the database to deliver further business value beyond automating this one process.
 
-There are also technical challenges in the way this proof-of-concept (POC) has been delivered:
+The business value is actually limited and doesn't justify the application maintenance and support requirements.
+
+This is due to technical challenges in the way this proof-of-concept (POC) has been delivered:
 
 - Runs in AWS, not Azure
   - Version 1's infra runs in Azure so this is a general blocker to wider adoption
   - The support team are not set up to support AWS hosted apps
 - Uses Rust for Lambda's
   - Developers aren't familiar with Rust and can't support it properly
-- The Postgresql database is still open to the internet
+- The Postgresql database is still open to the internet for technical and cost reasons
   - This is a significant security issue
 
 The current implementation blocks further integrations with other business processes and tools, both from a commercial and technical point of view.
@@ -84,7 +88,7 @@ The organisation needs to place the tender requests firmly within the whole bid 
 
 How can we capture the tender requests, filter out the ones we (as an IT Solutions Consultancy) are not interested in and tie the success or failure of a particular bid back to the original tender request?
 
-This requires a much more robust and holistic data solution which can be referenced back to other parts of the sales effort.
+This requires a much more robust and holistic data solution which can be connected to other parts of the sales effort.
 
 We could update the database with won and lost tenders to help avoid repeating mistakes associated with losing bids. Another example might be updating the bid database with notifications from the Irish Government about who won bids to understand more about our competitors.
 
@@ -92,11 +96,11 @@ If we append what we send in response to tenders that might even allow us to lev
 
 ### Technical Needs
 <!-- is it POC or PoC -->
-The intial POC is hard to manage because it's in both an unfamiliar language and cloud environment.
+The intial POC is hard to manage because it's in both an unfamiliar language and the incorrect cloud environment for the business.
 
 If we are going to host a more robust solution in the cloud then it at least needs to be in Microsoft's Azure.
 
-Our database needs to be connectable to the wider 'sales process' environment within Version 1. It's no good lobbing this into another proprietary tool that can't connect to.
+Our database also needs to be connectable to the wider 'sales process' environment within Version 1. It's no good lobbing this into another proprietary tool that can't connect to.
 
 <!--
 

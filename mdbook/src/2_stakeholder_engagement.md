@@ -65,7 +65,7 @@ We can use a traditional SQL scheme approach because the structure of the data i
 
 What is possibly open for debate is how to load/update and interact with the database. Should it be in the cloud? Which one? Should it be hosted on a server or as a service? Which particular flavour of SQL should we use? Postgresql? Microsoft SQL? We can also use several Azure hosted options (Microsoft.com, 2025)
 
-From talking to Technical & Support stakeholders we do know it needs to interact with Microsoft services (Dynamics 365) and potentially run in Azure.
+From talking to Technical & Support stakeholders we do know it needs to interact with Microsoft services (Dynamics 365, Fabric) and potentially run in Azure.
 
 We can look at options with a weighting, including a noSQL option for comparison
 
@@ -152,7 +152,7 @@ flowchart TD
     style Templates fill:#d4edda
 ```
 
-We should aim to get technical stakeholder by in through focusing on data-flow, using standardised tools, ease of support, security, logging and maintainability.
+We should aim to get technical stakeholder buy in through focusing on data-flow, using standardised tools, ease of support, security, logging and maintainability.
 
 ```mermaid
 graph TB

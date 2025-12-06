@@ -129,25 +129,25 @@ The pipeline adds up to 50 records (maximum) per day and Sales Team members add 
 
 We've indexed common query patterns (date ranges, status, value), which keeps performance well within acceptable limits. Additional optimization becomes relevant only at 100,000+ records or with real-time requirements - neither applies to our use case.
 
-(REF: quote about postgres perf here)
+We are going nowhere _near_ postgresql's limits (www.postgresql.org, n.d)
 
 ### Security
 
 **Who has access?**
-Role-Based Access Control (RBAC) splits access into groups and ensure "least privilege" (REF: needed) 
+Role-Based Access Control (RBAC) splits access into groups and ensure "least privilege" (Microsoft RBAC, 2024)
 
-For example we'd give Sales "read" access to everything but only "write" access to bid submissions fields and Management would get "read all" and so on. (REF: expand this?)
+For example we'd give Sales "read" access to everything but only "write" access to bid submissions fields and Management would get "read all" and so on.
 
-Only authorized individuals have access using Azure AD integration with Single Sign-On (SSO) and Multi-Factor authentication (REF:). Access should be auditable in the logs alongside other database activity.
+Only authorized individuals have access using Azure AD integration with Single Sign-On (SSO) and mandatory Multi-Factor authentication (najshahid, 2025). Access should be auditable in the logs alongside other database activity.
 
 **Data Protection**
-All data should be encrypted at rest and in transit using TLS 1.3 or higher with API keys and secrets held in secure storage like Azure Key Vault with automated key rotation built in. (REF:)
+All data should be encrypted at rest and in transit using TLS 1.3 or higher with API keys and secrets held in secure storage like Azure Key Vault with automated key rotation built in.  (msmbaldwin, n.d.)
 
 **Application Security**
 Input validation prevents things like SQL injection attacks and XSS (cross site scripting) while rate limiting on any API's prevent miss-use.
 
 **Network Security**
-The database should NOT be publically available on the web. If we _do_ happen to need this we should at least enable DDOS protection on any public IP/ports. Use Network Security Groups with a port/source whitelist and also put everything behind a NAT Gateway.
+The database should NOT be publically available on the web. If we _do_ happen to need this we should at least enable DDOS protection on any public IP/ports. Use Network Security Groups with a port/source whitelist and also put everything behind a NAT Gateway (asudbring, 2023)
 
 **Compliance & Governance**
 Enlist a third party carries out an annual independent security audit and there should be an incident response plan for responding to a possibl data breach.
@@ -157,8 +157,8 @@ The data can also be considered as 'internal only' and 'confidential' so this sh
 ### Regulatory Compliance
 
 **GDPR:**
-Only the necessary minimum data should be collected and certainly not anything that could be considered personally identifiable information (REF:)
-We can use AI related services from cloud providers to purge public identifiable information (PII) and have the ability to remove any on request. (REF:)
+Only the necessary minimum data should be collected and certainly not anything that could be considered personally identifiable information (Wikipedia Contributors, 2019)
+We can use AI related services from cloud providers to purge public identifiable information (PII) and have the ability to remove any on request. (laujan, 2025)
 
 **Data Retention and Auditing:**
 Monthly point in time recovery with a years backups in archive (to reduce cost).
@@ -166,19 +166,19 @@ Monthly point in time recovery with a years backups in archive (to reduce cost).
 Activity logging allows auditing of data access requests, logins and even performance behaviour.
 
 **Industry Standards:**
-We need to document security controls like ISO 27001 (REF: which are the relevant ones) and any cloud compliance certificates i.e. ISO 27018 which is cloud specific (REF:)
+We need to document security controls like ISO 27001 (International Organization for Standardization, 2022) and any cloud compliance certificates i.e. ISO 27018 which is cloud specific (for, 2025)
 
 ### Flexibility for future Use
 
 **MCP Server Integration:**
-MCP implementation empowers end-users to ask natural language questions of the data, for example: - "Show me all the healthcare tenders over €1m in value in the last 12 months".
+Model Context Protocol implementation empowers end-users to ask natural language questions of the data, for example: - "Show me all the healthcare tenders over €1m in value in the last 12 months".
 
-This also enables AI tools to use the data and extrapolate from other calls from user driven AI Assistants returning structured responses which contain references back to their 'source' tenders.
+This also enables other AI Assistants to return structured responses when they decide to get this data to answer a related question.
 
 **Predictive Analytics and AI:**
 Once enough tender and response data exist this can be used in the ML training to return an overall probability of a successful bid based on historical patterns.
 
-Another use might be taking the previously submitted winning bids and having AI produce an auto-generated first draft for new responses that takes context from historical successes.
+Another application might be taking the previously submitted winning bids and having AI produce an auto-generated first draft for new responses that takes context from historical successes.
 
 **Technology Agnostic Design:**
 A more generic architectural approach like containerisation (REF:) for it's ability to be deployed on any cloud, or on-prem. We should use open standards for core components like REST API's, using JSON for data internchange and standards like OAuth 2.0 for authentication.
