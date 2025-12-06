@@ -113,6 +113,8 @@ erDiagram
     }
 ```
 
+Figure 7: DB Schema and ERD
+
 The diagram shows:
 
 - **1:1 relationships** between `ETENDERS_CORE` and `ETENDERS_PDF`, `BID_ANALYSIS`, `CPV_CHECKER`, and `TENDER_NOTIFICATION`
@@ -181,7 +183,7 @@ Once enough tender and response data exist this can be used in the ML training t
 Another application might be taking the previously submitted winning bids and having AI produce an auto-generated first draft for new responses that takes context from historical successes.
 
 **Technology Agnostic Design:**
-A more generic architectural approach like containerisation (REF:) for it's ability to be deployed on any cloud, or on-prem. We should use open standards for core components like REST API's, using JSON for data internchange and standards like OAuth 2.0 for authentication.
+A more generic architectural approach like containerisation (Powell, 2021) might be useful for it's ability to be deployed on any cloud, or on-prem.
 
 This means we won't get painted into a corner when going from building the solution (the Dev part) to deploying and running it i.e. the "Ops" part.
 
@@ -190,15 +192,15 @@ This means we won't get painted into a corner when going from building the solut
 There are a LOT of sources and influences on best practices when it comes to database design, deployment, software engineering and AI/ML.
 
 **Data Engineering:**
-If we're going to host this solution in the cloud (again) we can look at the Microsoft or AWS well architected framework guides which inform security, reliability, operational scalability and cost-optimisation at the 'cloud' level.
+If we're going to host this solution in the cloud (again) we can look at the Microsoft or AWS well architected framework guides (PageWriter-MSFT, 2023) which inform security, reliability, operational scalability and cost-optimisation at the 'cloud' level.
 
 These also link to DevOps practices like deploying everything using infrastructure as code tools (bicep, terraform, pulumi), using version control for scripts, automated testing and CI/CD pipelines.
 
 **Software Development:**
-This covers basic things like clean code principles (REF:), having meaningful code reviews, deployment gates and adhering to the twelve factor app methodology as much as possible (REF: 12 factor).
+This covers basic things like clean code principles (Codacy, 2023), having meaningful code reviews, deployment gates and adhering to the twelve factor app methodology as much as possible (Wigging, 2017).
 
 **AI/ML best practices:**
-We must follow responsible AI principals (REF:) with a human in the loop to check any decision making and ensure accountability
+We must follow responsible AI principals (mesameki, 2024) with a human in the loop to check any decision making and ensure accountability.
 
 <!--
 **References:**

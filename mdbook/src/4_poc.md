@@ -52,6 +52,8 @@ flowchart TD
     style N fill:#fff4e1
 ```
 
+Figure 8: Data Pipeline Flow Diagram
+
 The technical aspect of implementing these steps is NOT complicated and doesn't require the use of third party tools. In fact, using Python allows us to really tune the solution to our needs.
 
 ## Testing
@@ -59,6 +61,7 @@ The technical aspect of implementing these steps is NOT complicated and doesn't 
 Another advantage of writing the data pipeline ourselves is that we can create tests to comprehensively handle each step in the process.
 
 ![Test Results](images/test_results.png)
+Figure 9: Test Results
 
 This encompasses the following: -
 
@@ -75,9 +78,9 @@ The most important (initial) tests make sure that the eTenders data format that'
 
 ## Logging & Debugging
 
-We can make sure that each step has proper logging which can be turned on as needed.
+We can make sure that each step has proper logging which can be turned on as needed via the `--enable-logging` flag.
 
-The entire data pipeline logs outputs to a file, in this case see ![etenders_20251128_131354.log]() where we can see issues arrise and take measures to fix the pipeline directly.
+The entire data pipeline logs outputs to a file, in this case see ![etenders_20251128_131354.log](https://github.com/robertsweetman/module_4/blob/main/python/etenders_20251128_131354.log) where we can see issues arrise and take measures to fix the pipeline directly.
 
 Building our own data pipeline in code means we can respond flexibly and quickly to issues that arrise.
 
@@ -98,6 +101,8 @@ Traceback (most recent call last):
     raise PDFSyntaxError("No /Root object! - Is this really a PDF?")
 pdfminer.pdfparser.PDFSyntaxError: No /Root object! - Is this really a PDF?
 ```
+
+Figure 10: PDF Extraction Errors
 
 Some URLs that are in the eTenders data are possibly HTML pages or corrupted. Now that's clear we can add defensive code fixes to the pipeline and improve the logging further.
 
@@ -123,6 +128,8 @@ def download_and_validate_pdf(url):
         return None
 ```
 
+Figure 11: Python fix for PDF Extraction Errors
+
 ### Server Errors
 
 About 35% of errors involve the server not responding to certain requests.
@@ -130,6 +137,8 @@ About 35% of errors involve the server not responding to certain requests.
 ```log
 2025-11-28 14:17:29,640 - pdf_parser - ERROR - Failed to download PDF from https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7012322: 500 Server Error: Internal Server Error for url: https://www.etenders.gov.ie/epps/cft/downloadNoticeForAdvSearch.do?resourceId=7012322
 ```
+
+Figure 12: Server Errors
 
 We can add some retry logic to the pipeline to fix this.
 
@@ -146,6 +155,8 @@ def download_with_retry(url):
     return response.content
 ```
 
+Figure 13: Python Fix for Server Errors
+
 ### LLM JSON parsing errors
 
 The LLM can produce invalid or incomplete JSON
@@ -153,6 +164,8 @@ The LLM can produce invalid or incomplete JSON
 ```log
 2025-11-28 14:27:26,769 - pdf_parser - ERROR - JSON Parse Error at line 1, column 202: Expecting ',' delimiter
 ```
+
+Figure 14: JSON Parsing Errors
 
 Again we can add some defensive python coding (REF: defensive coding) to address this by attempting to repair anything that contains this error
 
@@ -189,6 +202,8 @@ def parse_with_llm_robust(text):
         return attempt_json_repair(response['response'])
 ```
 
+Figure 15: Python fix for JSON Parsing
+
 ### Timeout Errors
 
 We can see about 10% of errors are due to timeouts getting larger PDF's
@@ -212,6 +227,8 @@ Traceback (most recent call last):
 socket.timeout: timed out
 ```
 
+Figure 16: Timeout Errors
+
 So we can add a retry queue to address these problems.
 
 ```python
@@ -228,6 +245,8 @@ class ErrorHandler:
             self.failed_urls.add(url)
             log_to_csv(url, error, 'SKIPPED')
 ```
+
+Figure 17: Python fix for Timeout Errors
 
 <!--
 Design, implement and debug a data product

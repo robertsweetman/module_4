@@ -46,6 +46,7 @@ Key stakeholders are the business leaders responsible for the sales effort in Ir
 -->
 
 ![Requirements](images/Requirements.png)
+Figure 3: Business and Technical Requirements
 
 ## Research
 
@@ -79,7 +80,9 @@ We can look at options with a weighting, including a noSQL option for comparison
 | Maintainability | 10% | 9/10 | 8/10 | 7/10 |
 | **Weighted Score** | | **8.0** | **8.6** | **6.6** |
 
-From this SWOT analysis, Azure hosted PostgreSQL is the preferred option, especially because we can also develop the entire solution using locally hosted PostgreSQL.
+Figure 4: SWOT Analysis with Weighting
+
+Analysis shows that Azure hosted PostgreSQL is the preferred option, especially because we can also develop the entire solution using locally hosted PostgreSQL to save time initially.
 
 <!--
 Using relevant data analysis techniques
@@ -152,6 +155,8 @@ flowchart TD
     style Templates fill:#d4edda
 ```
 
+Figure 5: Business Process Flow
+
 We should aim to get technical stakeholder buy in through focusing on data-flow, using standardised tools, ease of support, security, logging and maintainability.
 
 ```mermaid
@@ -223,6 +228,8 @@ graph TB
     style Backup fill:#6bcf7f
     style PostgreSQL fill:#336791
 ```
+
+Figure 6: Technical Architecture
 
 We're going to take the Python functions used to develop the proof of concept and re-work them into Azure Functions.
 

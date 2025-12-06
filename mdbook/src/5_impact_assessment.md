@@ -1,6 +1,6 @@
 # Impact Assessment and Recommendations for Rollout <!-- 800 words -->
 
-Let's not forget that SALES generate REVENUE
+Let's not forget that SALES generate REVENUE so ultimately our goal and the measure of our success is that we've contributed in a meaningful way to increased billing.
 
 ## Data product goals
 
