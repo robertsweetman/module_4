@@ -119,7 +119,7 @@ flowchart TD
     Review --> Pursue{Pursue<br/>Tender?}
     
     Pursue -->|No| Declined[Mark as Declined<br/>+ Reason]
-    Pursued -->|Yes| BidPrep[Prepare Bid Response]
+    Pursue -->|Yes| BidPrep[Prepare Bid Response]
     
     BidPrep --> UploadDoc[Upload Bid Documents<br/>to Database]
     UploadDoc --> Submit[Submit Tender Response]
