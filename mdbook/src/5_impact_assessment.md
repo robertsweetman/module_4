@@ -13,9 +13,33 @@ How/what tools can be used for Fabrik here (REF: to microsoft docs)
 
 ## Business Wins
 
-NOTE: FOCUS MOST OF THE CONTENT OF THIS SECTION HERE!!
+In addition to the reduction in Sales admin the business can display key business intelligence information from the data.
 
-TODO: How do you visualize this properly? visualisations!!
+![eTenders Intelligence Dashboard](images/dashboard_main.png)
+Figure 18: eTenders Intelligence Dashboard
+
+Shows the number of bids AI has recommended should be responded to, the total value of these bids (€72 million) while making it clear that 85% of tenders that are published aren't worth responding to!
+
+![eTenders Top Opportinities by Value](images/dashboard_top_opportunities.png)
+Figure 19: eTenders Top Opportunities by Value
+
+Shows the top opportunities by value as well as the overall distribution of AI recommended bids by value. Perhaps un-surprisingly IT consultancy related tenders tend to cluster > €500K range.
+
+Given this visualization approach business stakeholders should be able to get an 'at a glance' appreciation for the value of pulling this data into a queriable database.
+
+Adding the ability to have Sales Team members append update records to tenders in progress would allow them to monitor additional sales related KPI's:
+
+- When was the last time a particularly important bid was updated?
+- How often are potential customers contacted?
+- Percentage of won/lost bids?
+- How long does it take to respond to a tender?
+- How many points of contact (on average) are needed before a bid is won?
+
+All of these metrics get added to the tender records as they progress in order to build a picture that answers the question "What does our process of winning a tender look like?"
+
+As can already be seen from the data, the cost of missing a bid or losing in opportunity is already very high. We can discuss implementation cost but if the upside is in excess of €70,000,000 then it will pay for the development time thousands of time over.
+
+We should still have a sensible and structured delivery plan though.
 
 ## Implementation and Rollout Plan
 
