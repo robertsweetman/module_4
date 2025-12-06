@@ -30,7 +30,9 @@ jobs:
         run: |
           curl -sSL https://github.com/badboy/mdbook-mermaid/releases/download/v0.12.6/mdbook-mermaid-v0.12.6-x86_64-unknown-linux-gnu.tar.gz \
             | tar -xz --directory=./crates/mdbook
-          mdbook-mermaid install mdbook
+          echo ${GITHUB_WORKSPACE}/crates/mdbook >> $GITHUB_PATH
+          cd mdbook
+          ${GITHUB_WORKSPACE}/crates/mdbook/mdbook-mermaid install .
       - name: Build Book
         run: |
           cd mdbook
