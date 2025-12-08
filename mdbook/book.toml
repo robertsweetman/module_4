@@ -2,7 +2,7 @@
 authors = ["robertsweetman"]
 language = "en"
 src = "src"
-title = "Driving Business Value with Data Engineering"
+title = "Data Engineering Project Evaluation Report"
 
 [build]
 extra-watch-dirs = ["images"]

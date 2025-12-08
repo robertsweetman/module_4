@@ -1,4 +1,6 @@
-# Current State Evaluation and Needs Analysis <!-- 1200 words -->
+# Data Engineering Project Evaluation Report
+
+## Current State Evaluation and Needs Analysis <!-- 1200 words -->
 
 The eTenders application was initially designed to eliminate the time wasted reading through 50 emails per day and uses AI to discern which tenders should be responded to.
 
