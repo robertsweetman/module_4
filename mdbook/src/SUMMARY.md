@@ -6,3 +6,4 @@
 - [Proof of Concept](./4_poc.md)
 - [Impact Assessment and Recommendations for Rollout](./5_impact_assessment.md)
 - [References](./6_references.md)
+- [Appendix](./7_appendix.md)
