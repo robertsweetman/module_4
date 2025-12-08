@@ -102,7 +102,7 @@ The intial POC is hard to manage because it's in both an unfamiliar language and
 
 If we are going to host a more robust solution in the cloud then it at least needs to be in Microsoft's Azure.
 
-Our database also needs to be connectable to the wider 'sales process' environment within Version 1. It's no good lobbing this into another proprietary tool that can't connect to.
+Our database also needs to be connectable to the wider 'sales process' environment within the organisation. It's no good lobbing this into another proprietary tool that can't connect to.
 
 <!--
 
